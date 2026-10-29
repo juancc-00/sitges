@@ -1,0 +1,16 @@
+[
+    {
+        "user": "Juan",
+        "movie_title": "Carrie",
+        "movie_year": 1980,
+        "rating": 4.5,
+        "sitges_year": 2026
+    },
+    {
+        "user": "Ernesto",
+        "movie_title": "Angel's Egg",
+        "movie_year": 1975,
+        "rating": 5,
+        "sitges_year": 2025
+    }
+]
