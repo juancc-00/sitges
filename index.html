@@ -6,7 +6,7 @@
     <title>Archivo de Sitges</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="icon" type="image/x-icon" href="/guadana.png">
+    <link rel="icon" type="image/x-icon" href="./guadana.png">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -806,6 +806,94 @@
             flex-shrink: 0;
         }
 
+                /* Estilos para la sección Top 5 */
+        .top-movies-section {
+            margin-top: 3.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .top-movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .top-movie-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .top-movie-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(245, 179, 1, 0.4);
+        }
+
+        .top-movie-poster-wrap {
+            position: relative;
+            aspect-ratio: 2 / 3;
+            width: 100%;
+            background: var(--bg-elevated);
+        }
+
+        .top-movie-poster {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .top-movie-rank {
+            position: absolute;
+            top: 0.6rem;
+            left: 0.6rem;
+            background: rgba(10, 10, 13, 0.85);
+            backdrop-filter: blur(6px);
+            border: 1px solid var(--border);
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            font-weight: 800;
+            font-size: 0.85rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+        }
+
+        .top-movie-info {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .top-movie-title {
+            font-weight: 700;
+            font-size: 0.92rem;
+            line-height: 1.3;
+        }
+
+        .top-movie-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .top-movie-edition {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.1rem 0.45rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
         @media (max-width: 640px) {
             header, main {
                 padding-left: 1rem;
@@ -853,6 +941,15 @@
                 <h1>Ediciones</h1>
             </div>
             <div id="editionsGrid" class="editions-grid"></div>
+
+            <!-- TOP 5 GENERAL DE PELÍCULAS -->
+        <div class="top-movies-section">
+            <div class="section-heading" style="margin-bottom: 1.25rem;">
+                <h2 style="font-family: 'Cinzel', serif; font-size: 1.4rem;">🏆 Top 5 global</h2>
+                <p>Nuestras favoritas entre todas las ediciones</p>
+            </div>
+            <div id="topMoviesGrid" class="top-movies-grid"></div>
+        </div>
         </section>
 
         <!-- VISTA 2: DETALLE DE EDICIÓN (CALENDARIO ARRIBA + VALORACIONES ABAJO) -->
@@ -1061,6 +1158,56 @@
                             <span style="color: var(--accent); font-weight: 700;">Ver →</span>
                         </div>
                     </article>
+                `;
+            }).join('');
+            renderTopMovies()
+        }
+
+        // Renderizar el Top 5 global de películas
+        function renderTopMovies() {
+            const container = document.getElementById('topMoviesGrid');
+
+            // Enriquecer todas las películas de todas las ediciones con su promedio
+            const allMovies = ratingsData.map(m => ({
+                ...m,
+                _avg: getMovieAverage(m)
+            })).filter(m => m._avg !== null);
+
+            if (allMovies.length === 0) {
+                container.innerHTML = `<div class="empty-state" style="grid-column: 1 / -1;">No hay suficientes valoraciones para calcular el Top.</div>`;
+                return;
+            }
+
+            // Ordenar de mayor a menor nota media (y desempatar alfabéticamente)
+            allMovies.sort((a, b) => {
+                if (b._avg !== a._avg) return b._avg - a._avg;
+                return a.movie_title.localeCompare(b.movie_title);
+            });
+
+            const top5 = allMovies.slice(0, 5);
+
+            container.innerHTML = top5.map((m, index) => {
+                const posterSrc = m.poster || `pics/${m.sitges_year}.jpg`;
+                const rankLabels = ['1º', '2º', '3º', '4º', '5º'];
+
+                return `
+                    <div class="top-movie-card" onclick="openEdition(${m.sitges_year})" style="cursor: pointer;" title="Ir a Sitges ${m.sitges_year}">
+                        <div class="top-movie-poster-wrap">
+                            <img class="top-movie-poster" src="${escapeHtml(posterSrc)}" alt=""
+                                 onerror="this.src='pics/${m.sitges_year}.jpg'; this.onerror=null;">
+                            <div class="top-movie-rank">${rankLabels[index]}</div>
+                        </div>
+                        <div class="top-movie-info">
+                            <div>
+                                <div class="top-movie-title">${escapeHtml(m.movie_title)}</div>
+                                <div style="font-size: 0.78rem; color: var(--text-muted);">(${escapeHtml(String(m.movie_year))})</div>
+                            </div>
+                            <div class="top-movie-meta">
+                                <span class="top-movie-edition">Sitges ${m.sitges_year}</span>
+                                <span style="color: var(--gold); font-weight: 700;">★ ${m._avg.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    </div>
                 `;
             }).join('');
         }
