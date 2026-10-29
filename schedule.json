@@ -6,7 +6,7 @@
         "start_time": "18:45",
         "end_time": "20:45",
         "duration_min": 120,
-        "location": "Escorxador - Sitges, Carrer Torrent Pleta, 1, 08870 Sitges, Barcelona, España",
+        "location": "Escorxador",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2025/viernes-13",
         "description": "https://sitgesfilmfestival.com/es/film/2025/viernes-13"
     },
@@ -17,7 +17,7 @@
         "start_time": "22:15",
         "end_time": "01:00",
         "duration_min": 165,
-        "location": "Meliá Sitges, Carrer de Joan Salvat Papasseit, 38, 08870 Sitges, Barcelona, España",
+        "location": "Auditori Meliá",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2025/frankenstein",
         "description": "https://sitgesfilmfestival.com/es/film/2025/frankenstein"
     },
@@ -28,7 +28,7 @@
         "start_time": "01:15",
         "end_time": "05:46",
         "duration_min": 271,
-        "location": "Sala Tramuntana, Carrer de Ramón Dalmau, 08870 Sitges, Barcelona, España",
+        "location": "Tramuntana",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2025/hold-fort",
         "description": "Hold The Fort Touch Me Love Kills"
     },
@@ -39,18 +39,18 @@
         "start_time": "08:15",
         "end_time": "09:44",
         "duration_min": 89,
-        "location": "Sala Tramuntana, Carrer de Ramón Dalmau, 08870 Sitges, Barcelona, España",
+        "location": "Tramuntana",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2025/abrahams-boys",
         "description": "https://sitgesfilmfestival.com/es/film/2025/abrahams-boys"
     },
     {
         "sitges_year": 2025,
-        "movie_title": "Angel's Egg (4K)",
+        "movie_title": "Angel's Egg",
         "date": "2025-10-18",
         "start_time": "11:00",
         "end_time": "12:11",
         "duration_min": 71,
-        "location": "Meliá Sitges, Carrer de Joan Salvat Papasseit, 38, 08870 Sitges, Barcelona, España",
+        "location": "Auditori Meliá",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2025/angels-egg-4k",
         "description": "https://sitgesfilmfestival.com/es/film/2025/angels-egg-4k"
     },
@@ -61,7 +61,7 @@
         "start_time": "01:15",
         "end_time": "03:59",
         "duration_min": 164,
-        "location": "Sala Tramuntana, Carrer de Ramón Dalmau, 08870 Sitges, Barcelona, España",
+        "location": "Tramuntana",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2025/flush",
         "description": "Flush Fuck My Son!"
     },
@@ -72,7 +72,7 @@
         "start_time": "10:00",
         "end_time": "11:35",
         "duration_min": 95,
-        "location": "Sala Tramuntana, Carrer de Ramón Dalmau, 08870 Sitges, Barcelona, España",
+        "location": "Tramuntana",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2025/we-bury-dead",
         "description": "https://sitgesfilmfestival.com/es/film/2025/we-bury-dead"
     },
@@ -83,7 +83,7 @@
         "start_time": "12:00",
         "end_time": "13:39",
         "duration_min": 99,
-        "location": "Sala Tramuntana, Carrer de Ramón Dalmau, 08870 Sitges, Barcelona, España",
+        "location": "Tramuntana",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2025/her-will-be-done",
         "description": "https://sitgesfilmfestival.com/es/film/2025/her-will-be-done"
     },
@@ -94,7 +94,7 @@
         "start_time": "14:15",
         "end_time": "16:25",
         "duration_min": 130,
-        "location": "Sala Tramuntana, Carrer de Ramón Dalmau, 08870 Sitges, Barcelona, España",
+        "location": "Tramuntana",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2025/fantasma-util",
         "description": "https://sitgesfilmfestival.com/es/film/2025/fantasma-util"
     },
@@ -105,7 +105,7 @@
         "start_time": "17:00",
         "end_time": "18:43",
         "duration_min": 103,
-        "location": "Sala Tramuntana, Carrer de Ramón Dalmau, 08870 Sitges, Barcelona, España",
+        "location": "Tramuntana",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2025/night-patrol",
         "description": "https://sitgesfilmfestival.com/es/film/2025/night-patrol"
     },
@@ -116,7 +116,7 @@
         "start_time": "19:15",
         "end_time": "21:02",
         "duration_min": 107,
-        "location": "Sala Tramuntana, Carrer de Ramón Dalmau, 08870 Sitges, Barcelona, España",
+        "location": "Tramuntana",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2025/redux-redux",
         "description": "https://sitgesfilmfestival.com/es/film/2025/redux-redux"
     },
@@ -127,18 +127,18 @@
         "start_time": "22:45",
         "end_time": "23:54",
         "duration_min": 69,
-        "location": "Escorxador - Sitges, Carrer Torrent Pleta, 1, 08870 Sitges, Barcelona, España",
+        "location": "Escorxador",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2025/dead-lover",
         "description": "https://sitgesfilmfestival.com/es/film/2025/dead-lover"
     },
     {
         "sitges_year": 2026,
-        "movie_title": "Carrie (1976)",
+        "movie_title": "Carrie",
         "date": "2026-10-16",
         "start_time": "19:00",
         "end_time": "21:03",
         "duration_min": 123,
-        "location": "Cinema Casino Prado",
+        "location": "Casino Prado",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2026/carrie-1976-4k",
         "description": "https://sitgesfilmfestival.com/es/film/2026/carrie-1976-4k"
     },
@@ -149,18 +149,18 @@
         "start_time": "23:15",
         "end_time": "01:04",
         "duration_min": 109,
-        "location": "Cinema Casino Prado",
+        "location": "Casino Prado",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2026/vampires",
         "description": "https://sitgesfilmfestival.com/es/film/2026/vampires"
     },
     {
         "sitges_year": 2026,
-        "movie_title": "Marató final",
+        "movie_title": "Sleep no more + Big baby + Blood Tennis",
         "date": "2026-10-17",
         "start_time": "01:15",
         "end_time": "06:08",
         "duration_min": 293,
-        "location": "Cinema Casino Prado",
+        "location": "Casino Prado",
         "movie_url": "https://sitgesfilmfestival.com/es/film/2026/sleep-no-more",
         "description": "Sleep No More Big Baby Bloody Tennis"
     },
@@ -188,7 +188,7 @@
     },
     {
         "sitges_year": 2026,
-        "movie_title": "Holocausto caníbal Edición Especial",
+        "movie_title": "Holocausto caníbal",
         "date": "2026-10-17",
         "start_time": "23:00",
         "end_time": "01:02",
@@ -199,7 +199,7 @@
     },
     {
         "sitges_year": 2026,
-        "movie_title": "La nit + killer",
+        "movie_title": "Kick On + Faces of Death + Corporate Retreat",
         "date": "2026-10-18",
         "start_time": "01:15",
         "end_time": "05:56",
@@ -243,7 +243,7 @@
     },
     {
         "sitges_year": 2026,
-        "movie_title": "Aniquilación (Onslaught)",
+        "movie_title": "Onslaught",
         "date": "2026-10-18",
         "start_time": "22:30",
         "end_time": "00:02",

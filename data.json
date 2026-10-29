@@ -1,16 +1,273 @@
 [
     {
-        "user": "Juan",
-        "movie_title": "Carrie",
+        "movie_title": "Viernes 13",
         "movie_year": 1980,
-        "rating": 4.5,
-        "sitges_year": 2026
+        "sitges_year": 2025,
+        "rating_juan": 4.0,
+        "rating_ernesto": 4.0,
+        "rating_diego": 4.5,
+        "poster": "pics/Viernes 13.jpg"
     },
     {
-        "user": "Ernesto",
-        "movie_title": "Angel's Egg",
-        "movie_year": 1975,
-        "rating": 5,
-        "sitges_year": 2025
+        "movie_title": "Frankenstein",
+        "movie_year": 2025,
+        "sitges_year": 2025,
+        "rating_juan": 3.5,
+        "rating_ernesto": 3.5,
+        "rating_diego": 3.5,
+        "poster": "pics/Frankenstein.jpg"
+    },
+    {
+        "movie_title": "Hold the fort",
+        "movie_year": 2025,
+        "sitges_year": 2025,
+        "rating_juan": 3.5,
+        "rating_ernesto": 3.5,
+        "rating_diego": 4.0,
+        "poster": "pics/Hold the fort.jpg"
+    },
+    {
+        "movie_title": "Touch me",
+        "movie_year": 2025,
+        "sitges_year": 2025,
+        "rating_juan": 2.5,
+        "rating_ernesto": 3.5,
+        "rating_diego": null,
+        "poster": "pics/Touch me.jpg"
+    },
+        {
+        "movie_title": "Love kills",
+        "movie_year": 2025,
+        "sitges_year": 2025,
+        "rating_juan": 2.0,
+        "rating_ernesto": 2.0,
+        "rating_diego": 2.0,
+        "poster": "pics/Love kills.jpg"
+    },
+        {
+        "movie_title": "Abraham's boys: a Dracula atory",
+        "movie_year": 2025,
+        "sitges_year": 2025,
+        "rating_juan": 4.0,
+        "rating_ernesto": 3.0,
+        "rating_diego": null,
+        "poster": "pics/Abraham.jpg"
+    },
+        {
+        "movie_title": "Angel's egg",
+        "movie_year": 1985,
+        "sitges_year": 2025,
+        "rating_juan": 4.5,
+        "rating_ernesto": 5.0,
+        "rating_diego": null,
+        "poster": "pics/Angel's egg.jpg"
+    },
+        {
+        "movie_title": "Flush",
+        "movie_year": 2025,
+        "sitges_year": 2025,
+        "rating_juan": 4.0,
+        "rating_ernesto": 4.0,
+        "rating_diego": 4.0,
+        "poster": "pics/Flush.jpg"
+    },
+        {
+        "movie_title": "Fuck my son",
+        "movie_year": 2025,
+        "sitges_year": 2025,
+        "rating_juan": 2.5,
+        "rating_ernesto": 3.5,
+        "rating_diego": 2.0,
+        "poster": "pics/Fuck my son.jpg"
+    },
+        {
+        "movie_title": "We bury the dead",
+        "movie_year": 2024,
+        "sitges_year": 2025,
+        "rating_juan": 3.5,
+        "rating_ernesto": 3.5,
+        "rating_diego": 3.5,
+        "poster": "pics/We bury the dead.jpg"
+    },
+        {
+        "movie_title": "Her will be done",
+        "movie_year": 2025,
+        "sitges_year": 2025,
+        "rating_juan": 3.0,
+        "rating_ernesto": 3.5,
+        "rating_diego": 4.0,
+        "poster": "pics/Her will be done.jpg"
+    },
+        {
+        "movie_title": "Un fantasma útil",
+        "movie_year": 2025,
+        "sitges_year": 2025,
+        "rating_juan": 4.0,
+        "rating_ernesto": 4.0,
+        "rating_diego": 4.0,
+        "poster": "pics/Un fantasma útil.jpg"
+    },
+        {
+        "movie_title": "Night patrol",
+        "movie_year": 2025,
+        "sitges_year": 2025,
+        "rating_juan": 3.0,
+        "rating_ernesto": 3.5,
+        "rating_diego": 3.5,
+        "poster": "pics/Night patrol.jpg"
+    },
+        {
+        "movie_title": "Redux redux",
+        "movie_year": 2025,
+        "sitges_year": 2025,
+        "rating_juan": 3.5,
+        "rating_ernesto": 3.5,
+        "rating_diego": 3.0,
+        "poster": "pics/Redux redux.jpg"
+    },
+        {
+        "movie_title": "Dead lover",
+        "movie_year": 2025,
+        "sitges_year": 2025,
+        "rating_juan": 3.0,
+        "rating_ernesto": 3.5,
+        "rating_diego": 3.5,
+        "poster": "pics/Dead lover.jpg"
+    },
+        {
+        "movie_title": "Carrie",
+        "movie_year": 1976,
+        "sitges_year": 2026,
+        "rating_juan": 4.5,
+        "rating_ernesto": 5.0,
+        "rating_diego": 5.0,
+        "poster": "pics/Carrie.jpg"
+    }
+    ,
+        {
+        "movie_title": "Wildwood",
+        "movie_year": 2026,
+        "sitges_year": 2026,
+        "rating_juan": 5.0,
+        "rating_ernesto": 4.5,
+        "rating_diego": 5.0,
+        "poster": "pics/Wildwood.jpg"
+    },
+        {
+        "movie_title": "Holocausto canibal",
+        "movie_year": 1980,
+        "sitges_year": 2026,
+        "rating_juan": null,
+        "rating_ernesto": null,
+        "rating_diego": null,
+        "poster": "pics/Holocausto canibal.jpg"
+    },
+        {
+        "movie_title": "Faces of death",
+        "movie_year": 2026,
+        "sitges_year": 2026,
+        "rating_juan": 2.5,
+        "rating_ernesto": 2.5,
+        "rating_diego": null,
+        "poster": "pics/Faces of death.jpg"
+    },
+        {
+        "movie_title": "Onslaught",
+        "movie_year": 2026,
+        "sitges_year": 2026,
+        "rating_juan": 1.5,
+        "rating_ernesto": 0.5,
+        "rating_diego": 0.5,
+        "poster": "pics/Onslaught.jpg"
+    },
+        {
+        "movie_title": "V/H/S Mixtape",
+        "movie_year": 2026,
+        "sitges_year": 2026,
+        "rating_juan": 3.0,
+        "rating_ernesto": 3.5,
+        "rating_diego": 3.0,
+        "poster": "mixtape.jpg"
+    },
+        {
+        "movie_title": "Never after dark",
+        "movie_year": 2026,
+        "sitges_year": 2026,
+        "rating_juan": 3.0,
+        "rating_ernesto": 2.5,
+        "rating_diego": 3.0,
+        "poster": "pics/Never after dark.jpg"
+    },
+        {
+        "movie_title": "Corporate retreat",
+        "movie_year": 2026,
+        "sitges_year": 2026,
+        "rating_juan": 1.5,
+        "rating_ernesto": 1.5,
+        "rating_diego": 2.0,
+        "poster": "pics/Corporate retreat.jpg"
+    },
+        {
+        "movie_title": "Sleep no more",
+        "movie_year": 2026,
+        "sitges_year": 2026,
+        "rating_juan": 2.5,
+        "rating_ernesto": 1.5,
+        "rating_diego": 3.5,
+        "poster": "pics/Sleep no more.jpg"
+    },
+        {
+        "movie_title": "Bloody tennis",
+        "movie_year": 2026,
+        "sitges_year": 2026,
+        "rating_juan": 3.0,
+        "rating_ernesto": 4.0,
+        "rating_diego": 3.5,
+        "poster": "pics/Bloody tennis.jpg"
+    },
+        {
+        "movie_title": "Big baby",
+        "movie_year": 2025,
+        "sitges_year": 2026,
+        "rating_juan": 3.5,
+        "rating_ernesto": 3.5,
+        "rating_diego": 3.5,
+        "poster": "pics/Big baby.jpg"
+    },
+        {
+        "movie_title": "Kick on",
+        "movie_year": 2026,
+        "sitges_year": 2026,
+        "rating_juan": 3.0,
+        "rating_ernesto": 3.0,
+        "rating_diego": 3.5,
+        "poster": "pics/Kick on.jpg"
+    },
+        {
+        "movie_title": "The saviors",
+        "movie_year": 2026,
+        "sitges_year": 2026,
+        "rating_juan": 3.5,
+        "rating_ernesto": 3.5,
+        "rating_diego": 3.5,
+        "poster": "pics/The saviors.jpg"
+    },
+        {
+        "movie_title": "Los vampires",
+        "movie_year": 2026,
+        "sitges_year": 2026,
+        "rating_juan": 2.5,
+        "rating_ernesto": 3.0,
+        "rating_diego": 3.0,
+        "poster": "pics/Los vampires.jpg"
+    },
+        {
+        "movie_title": "Red snow",
+        "movie_year": 2026,
+        "sitges_year": 2026,
+        "rating_juan": 3.5,
+        "rating_ernesto": 3.5,
+        "rating_diego": 3.5,
+        "poster": "pics/Red snow.jpg"
     }
 ]

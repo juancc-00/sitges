@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sitges Film Log — Archivo del Festival</title>
+    <title>Archivo de Sitges</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/x-icon" href="/guadana.png">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -742,6 +743,69 @@
             display: none !important;
         }
 
+        /* Estilos para la nueva Tabla de Películas */
+        .table-wrapper {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow-x: auto;
+        }
+
+        .movies-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 720px;
+        }
+
+        .movies-table th {
+            background: var(--bg-elevated);
+            padding: 0.9rem 1rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+            transition: color 0.15s ease;
+        }
+
+        .movies-table th:hover {
+            color: var(--text-main);
+        }
+
+        .movies-table th.active-sort {
+            color: var(--gold);
+        }
+
+        .movies-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .movies-table tbody tr:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .movie-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .movie-thumb {
+            width: 42px;
+            height: 60px;
+            border-radius: 6px;
+            object-fit: cover;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
         @media (max-width: 640px) {
             header, main {
                 padding-left: 1rem;
@@ -767,13 +831,13 @@
 
     <header>
         <div class="header-inner">
-            <a class="brand" onclick="showEditionsView()">
-                <div class="brand-badge">S</div>
-                <div>
-                    <span class="brand-title">SITGES LOG</span>
-                    <span class="brand-subtitle">Calendario y Críticas del Grupo</span>
-                </div>
-            </a>
+        <a class="brand" onclick="showEditionsView()">
+                    <img src="pics/sitges.jpg" alt="Logo" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; border: 1px solid var(--border);">
+                    <div>
+                        <span class="brand-title">SITGES</span>
+                        <span class="brand-subtitle">Archivo y valoraciones de Juan, Ernesto y Diego</span>
+                    </div>
+                </a>
             <div class="header-actions">
                 <button class="btn" id="backBtn" onclick="showEditionsView()" style="display: none;">
                     ← Todas las ediciones
@@ -786,8 +850,7 @@
         <!-- VISTA 1: PORTADAS POR EDICIÓN -->
         <section id="editionsView">
             <div class="section-heading">
-                <h1>Ediciones del Festival</h1>
-                <p>Selecciona el cartel de una edición para abrir su calendario de pases en octubre y las puntuaciones del grupo.</p>
+                <h1>Ediciones</h1>
             </div>
             <div id="editionsGrid" class="editions-grid"></div>
         </section>
@@ -802,16 +865,16 @@
                         <p id="detailSubtitle" style="color: var(--text-muted); font-size: 0.9rem;"></p>
                     </div>
                 </div>
-                <button class="btn" onclick="showEditionsView()">← Cambiar de edición</button>
+                <!-- <button class="btn" onclick="showEditionsView()">← Cambiar de edición</button> -->
             </div>
 
             <!-- BLOQUE SUPERIOR: CALENDARIO DE OCTUBRE -->
             <div class="calendar-section">
                 <div class="calendar-header">
                     <div class="calendar-title-group">
-                        <div class="calendar-icon-box">📅</div>
+                        <!-- <div class="calendar-icon-box">📅</div> -->
                         <div>
-                            <h2>Agenda de Pases (Octubre)</h2>
+                            <h2>Agenda de Pases</h2>
                             <p id="calendarSummaryText">Películas vistas cada día según el calendario</p>
                         </div>
                     </div>
@@ -821,14 +884,15 @@
                 <div id="calendarDaysGrid" class="calendar-days-grid"></div>
             </div>
 
-            <!-- BLOQUE INFERIOR: VALORACIONES POR USUARIO -->
+            <!-- BLOQUE INFERIOR: TABLA DE PELÍCULAS -->
             <div class="section-heading" style="margin-bottom: 1rem;">
-                <h2 style="font-family: 'Cinzel', serif; font-size: 1.4rem;">Valoraciones de los Amigos</h2>
-                <p>Puntuaciones sobre 5 estrellas registradas en <code>data.json</code></p>
+                <h2 style="font-family: 'Cinzel', serif; font-size: 1.4rem;">Valoraciones</h2>
             </div>
 
             <div class="controls-bar">
-                <div id="userPills" class="user-pills"></div>
+                <button class="btn" id="btnSortChrono" onclick="setSort('chrono')">
+                    🕒 Ordenar cronológicamente (según pase)
+                </button>
                 <div class="right-controls">
                     <input type="text" id="searchInput" class="search-input" placeholder="Buscar película..." oninput="renderRatingsSection()">
                 </div>
@@ -841,13 +905,38 @@
     <script>
         // Datos de respaldo por si se abre el archivo en local sin servidor o aún no existe schedule.json
         const FALLBACK_RATINGS = [
-            { "user": "Juan", "movie_title": "Carrie", "movie_year": 1980, "rating": 4.5, "sitges_year": 2026 },
-            { "user": "María", "movie_title": "Carrie", "movie_year": 1980, "rating": 4.0, "sitges_year": 2026 },
-            { "user": "Ernesto", "movie_title": "The Substance", "movie_year": 2024, "rating": 5.0, "sitges_year": 2026 },
-            { "user": "Ernesto", "movie_title": "Angel's Egg", "movie_year": 1975, "rating": 5.0, "sitges_year": 2025 },
-            { "user": "Juan", "movie_title": "Angel's Egg", "movie_year": 1975, "rating": 4.5, "sitges_year": 2025 },
-            { "user": "María", "movie_title": "Late Night with the Devil", "movie_year": 2023, "rating": 4.0, "sitges_year": 2025 }
-        ];
+                    {
+                        "movie_title": "Carrie",
+                        "movie_year": 1980,
+                        "sitges_year": 2026,
+                        "poster": "pics/carrie.jpg",
+                        "rating_juan": 4.5,
+                        "rating_ernesto": 4.0,
+                        "rating_diego": 5.0
+                    },
+                    {
+                        "movie_title": "The Substance",
+                        "movie_year": 2024,
+                        "sitges_year": 2026,
+                        "rating_juan": 4.0,
+                        "rating_ernesto": 5.0,
+                        "rating_diego": 4.5
+                    },
+                    {
+                        "movie_title": "Angel's Egg",
+                        "movie_year": 1975,
+                        "sitges_year": 2025,
+                        "rating_juan": 4.5,
+                        "rating_ernesto": 5.0,
+                        "rating_diego": null
+                    }
+                ];
+
+        let ratingsData = [];
+        let scheduleData = [];
+        let currentEdition = null;
+        let sortField = 'chrono'; // 'chrono', 'title', 'juan', 'ernesto', 'diego', 'avg'
+        let sortAsc = true;
 
         const FALLBACK_SCHEDULE = [
             {
@@ -896,12 +985,6 @@
             }
         ];
 
-        let ratingsData = [];
-        let scheduleData = [];
-        let currentEdition = null;
-        let selectedUser = 'ALL';
-        let selectedDate = 'ALL';
-
         // Cargar data.json y schedule.json automáticamente
         async function loadAllData() {
             try {
@@ -923,35 +1006,39 @@
             renderEditionsView();
         }
 
-        // Obtener todos los años presentes tanto en data.json como en schedule.json
+        // Calcula el promedio de una fila ignorando si alguno de los 3 aún no la ha votado (null/undefined)
+        function getMovieAverage(movie) {
+            const vals = [movie.rating_juan, movie.rating_ernesto, movie.rating_diego]
+                .filter(v => v !== null && v !== undefined && v !== '' && !isNaN(Number(v)))
+                .map(Number);
+            if (vals.length === 0) return null;
+            return vals.reduce((a, b) => a + b, 0) / vals.length;
+        }
+
+        // CAMBIO 1: Orden cronológico (el más antiguo a la izquierda: a - b)
         function getAvailableYears() {
             const yearsSet = new Set([
                 ...ratingsData.map(d => Number(d.sitges_year)),
                 ...scheduleData.map(s => Number(s.sitges_year))
             ]);
-            return [...yearsSet].filter(Boolean).sort((a, b) => b - a);
+            return [...yearsSet].filter(Boolean).sort((a, b) => a - b);
         }
 
-        // Renderizar Vista 1: Portadas
+        // CAMBIO 2: Mostrar solo el conteo de películas de data.json en la tarjeta
         function renderEditionsView() {
             const grid = document.getElementById('editionsGrid');
             const years = getAvailableYears();
 
             if (years.length === 0) {
-                grid.innerHTML = `<div class="empty-state">No hay registros en <code>data.json</code> ni en <code>schedule.json</code>.</div>`;
+                grid.innerHTML = `<div class="empty-state">No hay registros en <code>data.json</code>.</div>`;
                 return;
             }
 
             grid.innerHTML = years.map(year => {
-                const yearRatings = ratingsData.filter(d => Number(d.sitges_year) === year);
-                const yearEvents = scheduleData.filter(s => Number(s.sitges_year) === year);
-                const uniqueMovies = new Set([
-                    ...yearRatings.map(d => d.movie_title.toLowerCase().trim()),
-                    ...yearEvents.map(s => s.movie_title.toLowerCase().trim())
-                ]).size;
-
-                const avg = yearRatings.length
-                    ? (yearRatings.reduce((acc, r) => acc + Number(r.rating), 0) / yearRatings.length).toFixed(1)
+                const yearMovies = ratingsData.filter(d => Number(d.sitges_year) === year);
+                const avgs = yearMovies.map(getMovieAverage).filter(v => v !== null);
+                const editionAvg = avgs.length
+                    ? (avgs.reduce((acc, v) => acc + v, 0) / avgs.length).toFixed(1)
                     : '—';
 
                 return `
@@ -964,12 +1051,12 @@
                                 <div class="poster-fallback-year">${year}</div>
                                 <div class="poster-fallback-sub">Sitges Film Log</div>
                             </div>
-                            <div class="edition-overlay-badge">★ ${avg}</div>
+                            <div class="edition-overlay-badge">★ ${editionAvg}</div>
                         </div>
                         <div class="edition-info">
                             <div>
                                 <div class="edition-year-label">Sitges ${year}</div>
-                                <div class="edition-meta">${uniqueMovies} películas · ${yearEvents.length} pases en agenda</div>
+                                <div class="edition-meta">${yearMovies.length} ${yearMovies.length === 1 ? 'película' : 'películas'}</div>
                             </div>
                             <span style="color: var(--accent); font-weight: 700;">Ver →</span>
                         </div>
@@ -977,12 +1064,11 @@
                 `;
             }).join('');
         }
-
-        // Abrir una edición concreta
+        
         function openEdition(year) {
             currentEdition = Number(year);
-            selectedUser = 'ALL';
-            selectedDate = 'ALL';
+            sortField = 'chrono';
+            sortAsc = true;
             document.getElementById('searchInput').value = '';
 
             document.getElementById('editionsView').classList.add('hidden');
@@ -996,11 +1082,10 @@
             document.getElementById('detailTitle').textContent = `Sitges ${year}`;
 
             renderCalendarSection();
-            renderUserPills();
             renderRatingsSection();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
+        
         function showEditionsView() {
             currentEdition = null;
             document.getElementById('detailView').classList.add('hidden');
@@ -1023,30 +1108,22 @@
             };
         }
 
-        // Renderizar el Calendario de Octubre arriba
+        // CAMBIO 3: Calendario sin filtros por día y adaptado al nuevo formato de data.json
         function renderCalendarSection() {
             const yearEvents = scheduleData
                 .filter(e => Number(e.sitges_year) === currentEdition)
                 .sort((a, b) => (a.date + a.start_time).localeCompare(b.date + b.start_time));
 
-            const yearRatings = ratingsData.filter(r => Number(r.sitges_year) === currentEdition);
-
-            const pillsContainer = document.getElementById('dayPillsContainer');
+            const yearMovies = ratingsData.filter(r => Number(r.sitges_year) === currentEdition);
             const gridContainer = document.getElementById('calendarDaysGrid');
             const summaryText = document.getElementById('calendarSummaryText');
 
             if (yearEvents.length === 0) {
-                pillsContainer.innerHTML = '';
                 summaryText.textContent = `No hay pases registrados en schedule.json para octubre de ${currentEdition}.`;
-                gridContainer.innerHTML = `
-                    <div class="empty-state" style="grid-column: 1 / -1; padding: 1.5rem;">
-                        Aún no hay eventos en <code>schedule.json</code> para Sitges ${currentEdition}. Ejecuta tu script de Python sobre el archivo <code>.ics</code> para generar los horarios.
-                    </div>
-                `;
+                gridContainer.innerHTML = `<div class="empty-state" style="grid-column: 1 / -1; padding: 1.5rem;">Sin eventos en <code>schedule.json</code> para este año.</div>`;
                 return;
             }
 
-            // Agrupar eventos por fecha (YYYY-MM-DD)
             const eventsByDate = {};
             yearEvents.forEach(ev => {
                 if (!eventsByDate[ev.date]) eventsByDate[ev.date] = [];
@@ -1054,31 +1131,18 @@
             });
 
             const uniqueDates = Object.keys(eventsByDate).sort();
-            summaryText.textContent = `${yearEvents.length} sesiones distribuidas en ${uniqueDates.length} días de octubre`;
+            summaryText.textContent = `${yearEvents.length} sesiones en ${uniqueDates.length} días`;
 
-            // Píldoras para filtrar por día o ver todos
-            pillsContainer.innerHTML = [
-                `<button class="day-pill ${selectedDate === 'ALL' ? 'active' : ''}" onclick="selectCalendarDate('ALL')">Todos los días (${uniqueDates.length})</button>`,
-                ...uniqueDates.map(d => {
-                    const info = formatSpanishDate(d);
-                    return `<button class="day-pill ${selectedDate === d ? 'active' : ''}" onclick="selectCalendarDate('${d}')">${info.weekday} ${info.dayNum}</button>`;
-                })
-            ].join('');
-
-            const datesToShow = selectedDate === 'ALL' ? uniqueDates : [selectedDate];
-
-            gridContainer.innerHTML = datesToShow.map(dateStr => {
+            gridContainer.innerHTML = uniqueDates.map(dateStr => {
                 const dayEvents = eventsByDate[dateStr] || [];
                 const dInfo = formatSpanishDate(dateStr);
 
                 const eventsHtml = dayEvents.map(ev => {
-                    // Buscar si esta película tiene nota en data.json
-                    const matchingRatings = yearRatings.filter(
-                        r => r.movie_title.toLowerCase().trim() === ev.movie_title.toLowerCase().trim()
+                    const matchedMovie = yearMovies.find(
+                        m => m.movie_title.toLowerCase().trim() === ev.movie_title.toLowerCase().trim()
                     );
-                    const avgRating = matchingRatings.length
-                        ? (matchingRatings.reduce((sum, r) => sum + Number(r.rating), 0) / matchingRatings.length).toFixed(1)
-                        : null;
+                    const avgVal = matchedMovie ? getMovieAverage(matchedMovie) : null;
+                    const avgRating = avgVal !== null ? avgVal.toFixed(1) : null;
 
                     const timeLabel = ev.end_time ? `${ev.start_time} – ${ev.end_time}` : ev.start_time;
                     const durationLabel = ev.duration_min ? `${ev.duration_min} min` : '';
@@ -1091,10 +1155,10 @@
                             </div>
                             <div class="schedule-movie-title">
                                 <span>${escapeHtml(ev.movie_title)}</span>
-                                ${avgRating ? `<span class="schedule-avg-pill" title="Nota media del grupo">★ ${avgRating}</span>` : ''}
+                                ${avgRating ? `<span class="schedule-avg-pill">★ ${avgRating}</span>` : ''}
                             </div>
                             <div class="schedule-meta-row">
-                                <span class="schedule-location" title="${escapeHtml(ev.location || '')}">📍 ${escapeHtml(ev.location || 'Sala no indicada')}</span>
+                                <span class="schedule-location">📍 ${escapeHtml(ev.location || 'Sala no indicada')}</span>
                                 ${ev.movie_url ? `<a class="schedule-link" href="${escapeHtml(ev.movie_url)}" target="_blank" rel="noopener">Ficha ↗</a>` : ''}
                             </div>
                         </div>
@@ -1110,17 +1174,22 @@
                             </div>
                             <span class="day-count">${dayEvents.length} ${dayEvents.length === 1 ? 'peli' : 'pelis'}</span>
                         </div>
-                        <div class="day-events-list">
-                            ${eventsHtml}
-                        </div>
+                        <div class="day-events-list">${eventsHtml}</div>
                     </div>
                 `;
             }).join('');
         }
 
-        function selectCalendarDate(dateStr) {
-            selectedDate = dateStr;
-            renderCalendarSection();
+        // Cambiar columna de ordenación
+        function setSort(field) {
+            if (sortField === field) {
+                sortAsc = !sortAsc;
+            } else {
+                sortField = field;
+                // Por defecto: notas de mayor a menor (false), título y cronológico de menor a mayor (true)
+                sortAsc = (field === 'title' || field === 'chrono');
+            }
+            renderRatingsSection();
         }
 
         // Píldoras de filtro de usuarios
@@ -1136,90 +1205,137 @@
             container.innerHTML = pillsHtml.join('');
         }
 
-        function selectUser(user) {
-            selectedUser = user;
-            renderUserPills();
-            renderRatingsSection();
-        }
-
-        // Renderizar tarjetas de valoraciones por amigo
+// CAMBIO 4: Tabla con Portada, Título, Juan, Ernesto, Diego, Promedio y ordenación
         function renderRatingsSection() {
             const container = document.getElementById('detailContent');
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
-
-            const yearData = ratingsData.filter(d => {
-                const matchYear = Number(d.sitges_year) === currentEdition;
-                const matchUser = selectedUser === 'ALL' || d.user === selectedUser;
-                const matchQuery = !query || d.movie_title.toLowerCase().includes(query);
-                return matchYear && matchUser && matchQuery;
-            });
-
             const yearEvents = scheduleData.filter(e => Number(e.sitges_year) === currentEdition);
 
-            document.getElementById('detailSubtitle').textContent =
-                `${yearData.length} valoraciones registradas · ${yearEvents.length} sesiones en el calendario de octubre`;
+            // Enriquecer cada película con su promedio y su fecha/hora de pase en schedule.json (para orden cronológico)
+            let movies = ratingsData
+                .filter(d => Number(d.sitges_year) === currentEdition && (!query || d.movie_title.toLowerCase().includes(query)))
+                .map(m => {
+                    const sched = yearEvents.find(
+                        e => e.movie_title.toLowerCase().trim() === m.movie_title.toLowerCase().trim()
+                    );
+                    const chronoKey = sched ? `${sched.date} ${sched.start_time || '00:00'}` : '9999-99-99 99:99';
+                    return {
+                        ...m,
+                        _avg: getMovieAverage(m),
+                        _chrono: chronoKey,
+                        _sched: sched
+                    };
+                });
 
-            if (yearData.length === 0) {
-                container.innerHTML = `<div class="empty-state">No hay películas puntuadas que coincidan con este filtro.</div>`;
+            document.getElementById('detailSubtitle').textContent =
+                `${movies.length} películas`;
+
+            // Resaltar si el botón cronológico está activo
+            const btnChrono = document.getElementById('btnSortChrono');
+            if (btnChrono) {
+                btnChrono.className = sortField === 'chrono' ? 'btn btn-primary' : 'btn';
+                btnChrono.textContent = `Orden cronológico ${sortField === 'chrono' ? (sortAsc ? '↑' : '↓') : ''}`;
+            }
+
+            if (movies.length === 0) {
+                container.innerHTML = `<div class="empty-state">No hay películas que coincidan con la búsqueda.</div>`;
                 return;
             }
 
-            const byUser = {};
-            yearData.forEach(item => {
-                if (!byUser[item.user]) byUser[item.user] = [];
-                byUser[item.user].push(item);
+            // Ordenar según la columna seleccionada
+            movies.sort((a, b) => {
+                let valA, valB;
+                switch (sortField) {
+                    case 'title':
+                        return sortAsc
+                            ? a.movie_title.localeCompare(b.movie_title)
+                            : b.movie_title.localeCompare(a.movie_title);
+                    case 'juan':
+                        valA = a.rating_juan ?? -1;
+                        valB = b.rating_juan ?? -1;
+                        break;
+                    case 'ernesto':
+                        valA = a.rating_ernesto ?? -1;
+                        valB = b.rating_ernesto ?? -1;
+                        break;
+                    case 'diego':
+                        valA = a.rating_diego ?? -1;
+                        valB = b.rating_diego ?? -1;
+                        break;
+                    case 'avg':
+                        valA = a._avg ?? -1;
+                        valB = b._avg ?? -1;
+                        break;
+                    case 'chrono':
+                    default:
+                        return sortAsc
+                            ? a._chrono.localeCompare(b._chrono)
+                            : b._chrono.localeCompare(a._chrono);
+                }
+                return sortAsc ? valA - valB : valB - valA;
             });
 
-            container.innerHTML = `<div class="users-container">${
-                Object.entries(byUser).map(([user, movies]) => {
-                    const sorted = [...movies].sort((a, b) => Number(b.rating) - Number(a.rating));
-                    const avg = (sorted.reduce((acc, m) => acc + Number(m.rating), 0) / sorted.length).toFixed(2);
-                    const initials = user.slice(0, 2).toUpperCase();
+            const arrow = (col) => sortField === col ? (sortAsc ? ' ↑' : ' ↓') : '';
+            const activeClass = (col) => sortField === col ? 'active-sort' : '';
 
-                    return `
-                        <div class="user-card">
-                            <div class="user-card-header">
-                                <div class="user-identity">
-                                    <div class="avatar">${escapeHtml(initials)}</div>
-                                    <div>
-                                        <div class="user-name">${escapeHtml(user)}</div>
-                                        <div style="font-size: 0.78rem; color: var(--text-muted);">${sorted.length} películas vistas</div>
-                                    </div>
-                                </div>
-                                <div class="user-stats">
-                                    Media<br><strong>★ ${avg}</strong>
-                                </div>
-                            </div>
-                            <div class="movie-list">
-                                ${sorted.map(m => {
-                                    // Si la película también está en schedule.json, mostramos su sala y link
-                                    const sched = yearEvents.find(
-                                        e => e.movie_title.toLowerCase().trim() === m.movie_title.toLowerCase().trim()
-                                    );
-                                    return `
-                                        <div class="movie-item">
-                                            <div>
-                                                <span class="movie-title">${escapeHtml(m.movie_title)}</span>
-                                                <span class="movie-year">(${escapeHtml(String(m.movie_year))})</span>
-                                                ${sched ? `
-                                                    <div class="movie-extra-meta">
-                                                        <span>📍 ${escapeHtml(sched.location)}</span>
-                                                        ${sched.movie_url ? `<a href="${escapeHtml(sched.movie_url)}" target="_blank" rel="noopener">Ficha ↗</a>` : ''}
-                                                    </div>
-                                                ` : ''}
+            const renderUserCell = (val) => {
+                if (val === null || val === undefined || val === '') {
+                    return `<span style="color: var(--text-muted);">—</span>`;
+                }
+                return `
+                    <div class="rating-box">
+                        ${renderStars(val)}
+                        <span class="rating-number">${Number(val).toFixed(1)}</span>
+                    </div>
+                `;
+            };
+
+            container.innerHTML = `
+                <div class="table-wrapper">
+                    <table class="movies-table">
+                        <thead>
+                            <tr>
+                                <th class="${activeClass('title')}" onclick="setSort('title')">Película${arrow('title')}</th>
+                                <th class="${activeClass('juan')}" onclick="setSort('juan')">Juan${arrow('juan')}</th>
+                                <th class="${activeClass('ernesto')}" onclick="setSort('ernesto')">Ernesto${arrow('ernesto')}</th>
+                                <th class="${activeClass('diego')}" onclick="setSort('diego')">Diego${arrow('diego')}</th>
+                                <th class="${activeClass('avg')}" onclick="setSort('avg')">Promedio${arrow('avg')}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${movies.map(m => {
+                                // Busca imagen en m.poster o por defecto en pics/{movie_title}.jpg o el cartel de la edición
+                                const posterSrc = m.poster || `pics/${m.sitges_year}.jpg`;
+                                const avgText = m._avg !== null ? m._avg.toFixed(2) : '—';
+                                return `
+                                    <tr>
+                                        <td>
+                                            <div class="movie-cell">
+                                                <img class="movie-thumb" src="${escapeHtml(posterSrc)}" alt=""
+                                                    onerror="this.src='pics/${m.sitges_year}.jpg'; this.onerror=null;">
+                                                <div>
+                                                    <span class="movie-title">${escapeHtml(m.movie_title)}</span>
+                                                    <span class="movie-year">(${escapeHtml(String(m.movie_year))})</span>
+                                                </div>
                                             </div>
-                                            <div class="rating-box">
-                                                ${renderStars(m.rating)}
-                                                <span class="rating-number">${Number(m.rating).toFixed(1)}</span>
-                                            </div>
-                                        </div>
-                                    `;
-                                }).join('')}
-                            </div>
-                        </div>
-                    `;
-                }).join('')
-            }</div>`;
+                                        </td>
+                                        <td>${renderUserCell(m.rating_juan)}</td>
+                                        <td>${renderUserCell(m.rating_ernesto)}</td>
+                                        <td>${renderUserCell(m.rating_diego)}</td>
+                                        <td>
+                                            ${m._avg !== null ? `
+                                                <div class="rating-box">
+                                                    <strong style="color: var(--gold); font-size: 0.95rem;">★ ${avgText}</strong>
+                                                </div>
+                                            ` : `<span style="color: var(--text-muted);">—</span>`}
+                                        </td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
         }
 
         // Generar estrellas sobre 5 (con medias estrellas)
