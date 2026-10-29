@@ -1,864 +1,1257 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sitges Film Club - Registro del Festival</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter & Cinzel para toques de cine fantástico -->
+    <title>Sitges Film Log — Archivo del Festival</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome para iconos y estrellas -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Cinzel', 'serif'],
-                    },
-                    colors: {
-                        sitges: {
-                            bg: '#0a0a0c',
-                            card: '#131317',
-                            border: '#26262e',
-                            red: '#e11d48',
-                            darkred: '#881337',
-                            gold: '#f59e0b'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-main: #0a0a0d;
+            --bg-surface: #13131a;
+            --bg-elevated: #1c1c26;
+            --bg-card-hover: #242432;
+            --accent: #e50914;
+            --accent-soft: rgba(229, 9, 20, 0.14);
+            --gold: #f5b301;
+            --text-main: #f3f3f7;
+            --text-muted: #9494a8;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background-color: #0a0a0c;
-            color: #f3f4f6;
-            background-image: radial-gradient(circle at 50% 0%, #2a0a14 0%, #0a0a0c 55%);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             min-height: 100vh;
+            line-height: 1.5;
+            background-image: radial-gradient(circle at 50% 0%, rgba(229, 9, 20, 0.12), transparent 45%);
         }
-        .poster-aspect {
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(14px);
+            background: rgba(10, 10, 13, 0.85);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+        }
+
+        .header-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .brand-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #e50914, #8b0000);
+            display: grid;
+            place-items: center;
+            font-family: 'Cinzel', serif;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: white;
+            box-shadow: 0 4px 16px rgba(229, 9, 20, 0.4);
+        }
+
+        .brand-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+        }
+
+        .brand-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
+        .btn {
+            background: var(--bg-elevated);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 0.55rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff1f2a;
+            border-color: #ff1f2a;
+        }
+
+        /* Layout */
+        main {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 2.2rem 2rem 4rem;
+        }
+
+        .section-heading {
+            margin-bottom: 1.75rem;
+        }
+
+        .section-heading h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.7rem, 3vw, 2.3rem);
+            margin-bottom: 0.35rem;
+        }
+
+        .section-heading p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Vista 1: Portadas de Ediciones */
+        .editions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.75rem;
+        }
+
+        .edition-card {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .edition-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(229, 9, 20, 0.5);
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(229, 9, 20, 0.15);
+        }
+
+        .poster-wrapper {
+            position: relative;
             aspect-ratio: 2 / 3;
+            width: 100%;
+            background: #161621;
+            overflow: hidden;
         }
-        /* Efecto brillo en las tarjetas de póster */
-        .poster-card {
-            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+        .poster-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
         }
-        .poster-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 30px -10px rgba(225, 29, 72, 0.35);
+
+        .edition-card:hover .poster-wrapper img {
+            transform: scale(1.05);
         }
-        /* Scrollbar personalizada */
-        ::-webkit-scrollbar {
-            width: 8px;
+
+        .poster-fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.5rem;
+            background: radial-gradient(circle at 80% 20%, rgba(229, 9, 20, 0.3), transparent 55%),
+                        linear-gradient(160deg, #1b1b29 0%, #0d0d14 100%);
+            text-align: center;
         }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0c;
+
+        .poster-fallback-top {
+            font-size: 0.72rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.6rem;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #26262e;
+
+        .poster-fallback-year {
+            font-family: 'Cinzel', serif;
+            font-size: 3.1rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-shadow: 0 4px 20px rgba(229, 9, 20, 0.5);
+        }
+
+        .poster-fallback-sub {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .edition-overlay-badge {
+            position: absolute;
+            top: 0.85rem;
+            right: 0.85rem;
+            background: rgba(10, 10, 13, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            padding: 0.3rem 0.65rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .edition-info {
+            padding: 1.15rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-surface);
+        }
+
+        .edition-year-label {
+            font-family: 'Cinzel', serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+        }
+
+        .edition-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Vista 2: Cabecera de Edición */
+        .edition-top-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.75rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .edition-Banner {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .mini-poster {
+            width: 58px;
+            height: 84px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            border: 1px solid var(--border);
+            background: var(--bg-elevated);
+            flex-shrink: 0;
+        }
+
+        /* ==========================================
+           NUEVO: CALENDARIO / AGENDA DEL FESTIVAL
+           ========================================== */
+        .calendar-section {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        .calendar-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .calendar-title-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .calendar-icon-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--accent-soft);
+            border: 1px solid rgba(229, 9, 20, 0.3);
+            display: grid;
+            place-items: center;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .calendar-title-group h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.25rem;
+            letter-spacing: 0.03em;
+        }
+
+        .calendar-title-group p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .day-pills {
+            display: flex;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+        }
+
+        .day-pill {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.38rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .day-pill:hover {
+            color: var(--text-main);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .day-pill.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .calendar-days-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.1rem;
+        }
+
+        .day-column {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .day-column-header {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.85rem 1.1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .day-date-badge {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .day-number {
+            font-family: 'Cinzel', serif;
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1;
+        }
+
+        .day-name {
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--accent);
+        }
+
+        .day-count {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.35);
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+        }
+
+        .day-events-list {
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .schedule-item {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: var(--radius-sm);
+            padding: 0.75rem 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+        }
+
+        .schedule-item:hover {
+            transform: translateX(3px);
+            border-color: rgba(255, 255, 255, 0.22);
+            border-left-color: var(--gold);
+        }
+
+        .schedule-time-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.76rem;
+        }
+
+        .schedule-time {
+            color: var(--gold);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .schedule-duration {
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.1rem 0.45rem;
             border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #e11d48;
+
+        .schedule-movie-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .schedule-avg-pill {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--gold);
+            background: rgba(245, 179, 1, 0.12);
+            border: 1px solid rgba(245, 179, 1, 0.3);
+            padding: 0.1rem 0.45rem;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .schedule-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.15rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .schedule-location {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .schedule-link {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 600;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        .schedule-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Controles de Filtro y Búsqueda de Valoraciones */
+        .controls-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-surface);
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            margin-bottom: 1.75rem;
+        }
+
+        .user-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .pill {
+            background: var(--bg-elevated);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 0.45rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.83rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pill:hover {
+            color: var(--text-main);
+        }
+
+        .pill.active {
+            background: var(--accent-soft);
+            color: #ff5a62;
+            border-color: var(--accent);
+        }
+
+        .right-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            align-items: center;
+        }
+
+        .search-input {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.5rem 0.85rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            min-width: 210px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Secciones de Usuarios */
+        .users-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .user-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-card-header {
+            padding: 1.15rem 1.35rem;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-identity {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e50914, #5900ff);
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: white;
+        }
+
+        .user-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .user-stats {
+            text-align: right;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .user-stats strong {
+            color: var(--gold);
+            font-size: 0.9rem;
+        }
+
+        .movie-list {
+            padding: 0.75rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .movie-item {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 0.8rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            transition: background 0.15s ease;
+        }
+
+        .movie-item:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .movie-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .movie-year {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-left: 0.35rem;
+        }
+
+        .movie-extra-meta {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            align-items: center;
+        }
+
+        .movie-extra-meta a {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Estrellas */
+        .rating-box {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .stars-row {
+            display: inline-flex;
+            gap: 2px;
+        }
+
+        .star-svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .rating-number {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--gold);
+            min-width: 28px;
+            text-align: right;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            border: 1px dashed var(--border);
+            color: var(--text-muted);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 640px) {
+            header, main {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .users-container, .calendar-days-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
-<body class="antialiased flex flex-col min-h-screen selection:bg-sitges-red selection:text-white">
+<body>
 
-    <!-- BARRA DE NAVEGACIÓN -->
-    <header class="sticky top-0 z-40 backdrop-blur-md bg-sitges-bg/85 border-b border-sitges-border">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <!-- Logo / Home Link -->
-            <button onclick="showHomeView()" class="flex items-center gap-3 text-left group focus:outline-none">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-sitges-red to-sitges-darkred flex items-center justify-center shadow-lg shadow-sitges-red/20 group-hover:scale-105 transition-transform">
-                    <i class="fa-solid fa-film text-white text-lg"></i>
-                </div>
+    <!-- Gradiente SVG global para medias estrellas -->
+    <svg width="0" height="0" style="position:absolute">
+        <defs>
+            <linearGradient id="half-star-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="50%" stop-color="#f5b301" />
+                <stop offset="50%" stop-color="#323246" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <header>
+        <div class="header-inner">
+            <a class="brand" onclick="showEditionsView()">
+                <div class="brand-badge">S</div>
                 <div>
-                    <span class="font-display font-bold text-lg sm:text-xl tracking-wider text-white block leading-none">
-                        SITGES <span class="text-sitges-red">LOG</span>
-                    </span>
-                    <span class="text-xs text-gray-400">Diario de Películas del Grupo</span>
+                    <span class="brand-title">SITGES LOG</span>
+                    <span class="brand-subtitle">Calendario y Críticas del Grupo</span>
                 </div>
-            </button>
-
-            <!-- Acciones Derecha -->
-            <div class="flex items-center gap-3">
-                <span id="data-source-badge" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-800 text-zinc-300 border border-zinc-700">
-                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                    Modo Demo
-                </span>
-
-                <button onclick="toggleModal('json-modal')" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-sitges-card hover:bg-zinc-800 text-gray-300 border border-sitges-border transition flex items-center gap-2">
-                    <i class="fa-solid fa-code text-sitges-red"></i>
-                    <span>Probar JSON</span>
-                </button>
-
-                <button onclick="toggleModal('help-modal')" class="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-sitges-card border border-transparent hover:border-sitges-border transition" title="¿Cómo publicar en GitHub Pages?">
-                    <i class="fa-solid fa-circle-question text-lg"></i>
+            </a>
+            <div class="header-actions">
+                <button class="btn" id="backBtn" onclick="showEditionsView()" style="display: none;">
+                    ← Todas las ediciones
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-        <!-- ==========================================
-             VISTA 1: SELECCIÓN DE EDICIÓN (PORTADAS)
-             ========================================== -->
-        <section id="view-home" class="space-y-8 animate-fadeIn">
-            <div class="text-center max-w-2xl mx-auto space-y-3 pt-2 pb-4">
-                <h1 class="font-display text-3xl sm:text-4xl font-extrabold tracking-wide text-white">
-                    SELECCIONA LA EDICIÓN
-                </h1>
-                <p class="text-gray-400 text-sm sm:text-base">
-                    Haz clic en el cartel de cada año del Festival de Sitges para explorar las películas vistas y las puntuaciones de cada amigo.
-                </p>
+    <main>
+        <!-- VISTA 1: PORTADAS POR EDICIÓN -->
+        <section id="editionsView">
+            <div class="section-heading">
+                <h1>Ediciones del Festival</h1>
+                <p>Selecciona el cartel de una edición para abrir su calendario de pases en octubre y las puntuaciones del grupo.</p>
             </div>
-
-            <!-- Grid de Portadas de Ediciones -->
-            <div id="editions-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 justify-items-center">
-                <!-- Generado dinámicamente por JS -->
-            </div>
+            <div id="editionsGrid" class="editions-grid"></div>
         </section>
 
-        <!-- ==========================================
-             VISTA 2: DETALLE DE LA EDICIÓN SELECCIONADA
-             ========================================== -->
-        <section id="view-edition" class="hidden space-y-8">
-            <!-- Cabecera de la edición -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-sitges-border">
-                <div class="flex items-center gap-4">
-                    <button onclick="showHomeView()" class="group flex items-center justify-center w-11 h-11 rounded-xl bg-sitges-card hover:bg-sitges-red text-gray-300 hover:text-white border border-sitges-border hover:border-sitges-red transition-all shadow-md" title="Volver a las portadas">
-                        <i class="fa-solid fa-arrow-left group-hover:-translate-x-0.5 transition-transform"></i>
-                    </button>
+        <!-- VISTA 2: DETALLE DE EDICIÓN (CALENDARIO ARRIBA + VALORACIONES ABAJO) -->
+        <section id="detailView" class="hidden">
+            <div class="edition-top-bar">
+                <div class="edition-Banner">
+                    <img id="detailPoster" class="mini-poster" src="" alt="Poster" onerror="this.style.display='none'">
                     <div>
-                        <div class="flex items-center gap-2.5">
-                            <span class="px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider bg-sitges-red/20 text-sitges-red border border-sitges-red/30">
-                                Edición Oficial
-                            </span>
-                            <span id="edition-stats-subtitle" class="text-xs text-gray-400"></span>
+                        <h1 id="detailTitle" style="font-family: 'Cinzel', serif; font-size: 1.85rem;">Sitges 2026</h1>
+                        <p id="detailSubtitle" style="color: var(--text-muted); font-size: 0.9rem;"></p>
+                    </div>
+                </div>
+                <button class="btn" onclick="showEditionsView()">← Cambiar de edición</button>
+            </div>
+
+            <!-- BLOQUE SUPERIOR: CALENDARIO DE OCTUBRE -->
+            <div class="calendar-section">
+                <div class="calendar-header">
+                    <div class="calendar-title-group">
+                        <div class="calendar-icon-box">📅</div>
+                        <div>
+                            <h2>Agenda de Pases (Octubre)</h2>
+                            <p id="calendarSummaryText">Películas vistas cada día según el calendario</p>
                         </div>
-                        <h2 id="edition-title" class="font-display text-2xl sm:text-4xl font-bold text-white mt-1">
-                            SITGES 2026
-                        </h2>
                     </div>
+                    <div id="dayPillsContainer" class="day-pills"></div>
                 </div>
 
-                <!-- Controles: Pestañas de vista y filtros -->
-                <div class="flex flex-wrap items-center gap-3">
-                    <!-- Selector de Modo de Vista -->
-                    <div class="bg-sitges-card p-1 rounded-xl border border-sitges-border flex items-center">
-                        <button id="tab-by-user" onclick="setDisplayMode('users')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-2 bg-sitges-red text-white shadow">
-                            <i class="fa-solid fa-users"></i>
-                            <span>Por Amigo</span>
-                        </button>
-                        <button id="tab-by-movie" onclick="setDisplayMode('movies')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-2 text-gray-400 hover:text-white">
-                            <i class="fa-solid fa-trophy"></i>
-                            <span>Ranking Películas</span>
-                        </button>
-                    </div>
+                <div id="calendarDaysGrid" class="calendar-days-grid"></div>
+            </div>
+
+            <!-- BLOQUE INFERIOR: VALORACIONES POR USUARIO -->
+            <div class="section-heading" style="margin-bottom: 1rem;">
+                <h2 style="font-family: 'Cinzel', serif; font-size: 1.4rem;">Valoraciones de los Amigos</h2>
+                <p>Puntuaciones sobre 5 estrellas registradas en <code>data.json</code></p>
+            </div>
+
+            <div class="controls-bar">
+                <div id="userPills" class="user-pills"></div>
+                <div class="right-controls">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Buscar película..." oninput="renderRatingsSection()">
                 </div>
             </div>
 
-            <!-- Barra de Filtros (Usuarios + Buscador + Orden) -->
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-sitges-card/60 p-4 rounded-2xl border border-sitges-border">
-                <!-- Píldoras de filtro de usuarios -->
-                <div id="user-filter-pills" class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
-                    <!-- Generado por JS -->
-                </div>
-
-                <!-- Buscador y ordenación -->
-                <div class="flex items-center gap-2.5">
-                    <div class="relative flex-grow sm:w-56">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-xs"></i>
-                        <input
-                            type="text"
-                            id="search-input"
-                            oninput="renderEditionContent()"
-                            placeholder="Buscar película..."
-                            class="w-full pl-9 pr-3 py-2 bg-sitges-bg border border-sitges-border rounded-xl text-xs sm:text-sm text-white placeholder-gray-500 focus:outline-none focus:border-sitges-red transition"
-                        >
-                    </div>
-
-                    <select id="sort-select" onchange="renderEditionContent()" class="bg-sitges-bg border border-sitges-border rounded-xl px-3 py-2 text-xs sm:text-sm text-gray-300 focus:outline-none focus:border-sitges-red">
-                        <option value="rating-desc">★ Mayor nota</option>
-                        <option value="rating-asc">★ Menor nota</option>
-                        <option value="title-asc">A-Z Título</option>
-                        <option value="year-desc">Año película</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Contenedor Dinámico: Tarjetas por Usuario o Ranking de Películas -->
-            <div id="edition-content-container">
-                <!-- Generado dinámicamente por JS -->
-            </div>
+            <div id="detailContent"></div>
         </section>
-
     </main>
 
-    <!-- FOOTER -->
-    <footer class="border-t border-sitges-border py-6 mt-12 text-center text-xs text-gray-500">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <p>Sitges Film Club · Generado para GitHub Pages</p>
-            <p>Lee automáticamente de <code class="text-gray-300 bg-sitges-card px-1.5 py-0.5 rounded">data.json</code> y portadas en <code class="text-gray-300 bg-sitges-card px-1.5 py-0.5 rounded">pics/{año}.jpg</code></p>
-        </div>
-    </footer>
-
-    <!-- ==========================================
-         MODAL 1: CÓMO USAR EN GITHUB PAGES
-         ========================================== -->
-    <div id="help-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-sitges-card border border-sitges-border rounded-2xl max-w-xl w-full p-6 space-y-5 shadow-2xl">
-            <div class="flex items-center justify-between border-b border-sitges-border pb-4">
-                <h3 class="font-display font-bold text-lg text-white flex items-center gap-2">
-                    <i class="fa-brands fa-github text-sitges-red text-xl"></i>
-                    Estructura para tu repositorio GitHub
-                </h3>
-                <button onclick="toggleModal('help-modal')" class="text-gray-400 hover:text-white">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <div class="space-y-4 text-sm text-gray-300 leading-relaxed">
-                <p>Esta página es 100% estática y funciona automáticamente en <strong>GitHub Pages</strong>. Solo necesitas organizar tu repositorio con esta estructura:</p>
-
-                <div class="bg-sitges-bg p-4 rounded-xl border border-sitges-border font-mono text-xs text-gray-300 space-y-1">
-                    <div>📁 <strong>mi-repo-sitges/</strong></div>
-                    <div class="pl-4">├── 📄 <span class="text-emerald-400">index.html</span> <span class="text-gray-500">(este archivo)</span></div>
-                    <div class="pl-4">├── 📄 <span class="text-amber-400">data.json</span> <span class="text-gray-500">(vuestro JSON con las películas)</span></div>
-                    <div class="pl-4">└── 📁 <span class="text-sky-400">pics/</span></div>
-                    <div class="pl-10">├── 🖼️ 2024.jpg</div>
-                    <div class="pl-10">├── 🖼️ 2025.jpg</div>
-                    <div class="pl-10">└── 🖼️ 2026.jpg</div>
-                </div>
-
-                <ul class="list-disc list-inside space-y-1.5 text-xs text-gray-400">
-                    <li><strong>Portadas automáticas:</strong> Si en el JSON aparece <code class="text-gray-200">"sitges_year": 2026</code>, la web buscará automáticamente la imagen <code class="text-gray-200">pics/2026.jpg</code>.</li>
-                    <li><strong>Fallback incluido:</strong> Si aún no habéis subido la foto de algún año a <code class="text-gray-200">pics/</code>, se generará un póster conmemorativo automáticamente para que nunca se vea una imagen rota.</li>
-                    <li><strong>Actualización:</strong> Cada vez que alguien añada una película a <code class="text-gray-200">data.json</code> y haga <em>commit</em>, la web mostrará los cambios al instante.</li>
-                </ul>
-            </div>
-
-            <div class="pt-2 flex justify-end">
-                <button onclick="toggleModal('help-modal')" class="px-4 py-2 rounded-xl bg-sitges-red hover:bg-rose-700 text-white text-sm font-medium transition">
-                    ¡Entendido!
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==========================================
-         MODAL 2: EDITOR / PROBADOR DE JSON EN VIVO
-         ========================================== -->
-    <div id="json-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-sitges-card border border-sitges-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl flex flex-col max-h-[90vh]">
-            <div class="flex items-center justify-between border-b border-sitges-border pb-3">
-                <div>
-                    <h3 class="font-display font-bold text-lg text-white">Datos JSON en vivo</h3>
-                    <p class="text-xs text-gray-400">Pega aquí tu JSON para previsualizar cómo queda o cópialo para tu archivo <code class="text-amber-400">data.json</code></p>
-                </div>
-                <button onclick="toggleModal('json-modal')" class="text-gray-400 hover:text-white">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <textarea id="json-textarea" class="w-full flex-grow min-h-[280px] bg-sitges-bg border border-sitges-border rounded-xl p-3 font-mono text-xs text-emerald-400 focus:outline-none focus:border-sitges-red" spellcheck="false"></textarea>
-
-            <div id="json-error" class="hidden text-xs text-rose-400 bg-rose-950/50 border border-rose-800 rounded-lg p-2.5"></div>
-
-            <div class="flex items-center justify-between pt-2">
-                <button onclick="copyJsonToClipboard()" id="copy-btn" class="px-3.5 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-gray-200 text-xs font-medium transition flex items-center gap-2">
-                    <i class="fa-regular fa-copy"></i>
-                    <span>Copiar para data.json</span>
-                </button>
-                <div class="flex gap-2">
-                    <button onclick="toggleModal('json-modal')" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-gray-300 text-xs font-medium transition">
-                        Cancelar
-                    </button>
-                    <button onclick="applyCustomJson()" class="px-4 py-2 rounded-xl bg-sitges-red hover:bg-rose-700 text-white text-xs font-semibold transition">
-                        Aplicar cambios
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==========================================
-         LÓGICA DE LA APLICACIÓN (JAVASCRIPT)
-         ========================================== -->
     <script>
-        // 1. DATOS DE EJEMPLO (Se usan si no se encuentra un archivo 'data.json' junto al index.html)
-        const FALLBACK_DATA = [
+        // Datos de respaldo por si se abre el archivo en local sin servidor o aún no existe schedule.json
+        const FALLBACK_RATINGS = [
+            { "user": "Juan", "movie_title": "Carrie", "movie_year": 1980, "rating": 4.5, "sitges_year": 2026 },
+            { "user": "María", "movie_title": "Carrie", "movie_year": 1980, "rating": 4.0, "sitges_year": 2026 },
+            { "user": "Ernesto", "movie_title": "The Substance", "movie_year": 2024, "rating": 5.0, "sitges_year": 2026 },
+            { "user": "Ernesto", "movie_title": "Angel's Egg", "movie_year": 1975, "rating": 5.0, "sitges_year": 2025 },
+            { "user": "Juan", "movie_title": "Angel's Egg", "movie_year": 1975, "rating": 4.5, "sitges_year": 2025 },
+            { "user": "María", "movie_title": "Late Night with the Devil", "movie_year": 2023, "rating": 4.0, "sitges_year": 2025 }
+        ];
+
+        const FALLBACK_SCHEDULE = [
             {
-                "user": "Juan",
+                "sitges_year": 2026,
                 "movie_title": "Carrie",
-                "movie_year": 1980,
-                "rating": 4.5,
-                "sitges_year": 2026
+                "date": "2026-10-09",
+                "start_time": "18:30",
+                "end_time": "20:08",
+                "duration_min": 98,
+                "location": "Auditori Meliá Sitges",
+                "movie_url": "https://sitgesfilmfestival.com",
+                "description": "Proyección especial aniversario"
             },
             {
-                "user": "Ernesto",
-                "movie_title": "Carrie",
-                "movie_year": 1980,
-                "rating": 4.0,
-                "sitges_year": 2026
-            },
-            {
-                "user": "Juan",
-                "movie_title": "The Thing",
-                "movie_year": 1982,
-                "rating": 5.0,
-                "sitges_year": 2026
-            },
-            {
-                "user": "Marta",
-                "movie_title": "The Thing",
-                "movie_year": 1982,
-                "rating": 4.5,
-                "sitges_year": 2026
-            },
-            {
-                "user": "Marta",
-                "movie_title": "Nosferatu",
-                "movie_year": 2024,
-                "rating": 3.5,
-                "sitges_year": 2026
-            },
-            {
-                "user": "Ernesto",
-                "movie_title": "Beyond the Black Rainbow",
-                "movie_year": 2010,
-                "rating": 3.0,
-                "sitges_year": 2026
-            },
-            {
-                "user": "Ernesto",
-                "movie_title": "Angel's Egg",
-                "movie_year": 1975,
-                "rating": 5.0,
-                "sitges_year": 2025
-            },
-            {
-                "user": "Juan",
-                "movie_title": "Angel's Egg",
-                "movie_year": 1975,
-                "rating": 4.0,
-                "sitges_year": 2025
-            },
-            {
-                "user": "Juan",
+                "sitges_year": 2026,
                 "movie_title": "The Substance",
-                "movie_year": 2024,
-                "rating": 4.5,
-                "sitges_year": 2025
+                "date": "2026-10-09",
+                "start_time": "22:15",
+                "end_time": "00:35",
+                "duration_min": 140,
+                "location": "Sala Tramuntana",
+                "movie_url": "https://sitgesfilmfestival.com",
+                "description": "Sección Oficial Fantàstic"
             },
             {
-                "user": "Marta",
-                "movie_title": "The Substance",
-                "movie_year": 2024,
-                "rating": 5.0,
-                "sitges_year": 2025
+                "sitges_year": 2025,
+                "movie_title": "Angel's Egg",
+                "date": "2025-10-11",
+                "start_time": "16:00",
+                "end_time": "17:15",
+                "duration_min": 75,
+                "location": "Cinema Prado",
+                "movie_url": "https://sitgesfilmfestival.com",
+                "description": "Anima't"
             },
             {
-                "user": "Ernesto",
-                "movie_title": "Strange Darling",
-                "movie_year": 2023,
-                "rating": 4.0,
-                "sitges_year": 2025
-            },
-            {
-                "user": "Juan",
-                "movie_title": "When Evil Lurks",
-                "movie_year": 2023,
-                "rating": 4.5,
-                "sitges_year": 2024
-            },
-            {
-                "user": "Marta",
+                "sitges_year": 2025,
                 "movie_title": "Late Night with the Devil",
-                "movie_year": 2023,
-                "rating": 4.0,
-                "sitges_year": 2024
+                "date": "2025-10-12",
+                "start_time": "23:00",
+                "end_time": "00:33",
+                "duration_min": 93,
+                "location": "Auditori Meliá Sitges",
+                "movie_url": "https://sitgesfilmfestival.com",
+                "description": "Sesión golfa"
             }
         ];
 
-        // Estado global de la aplicación
-        let movieRecords = [];
-        let selectedSitgesYear = null;
-        let selectedUserFilter = 'ALL'; // 'ALL' o el nombre de un usuario
-        let displayMode = 'users';      // 'users' (Por amigo) | 'movies' (Ranking de la edición)
+        let ratingsData = [];
+        let scheduleData = [];
+        let currentEdition = null;
+        let selectedUser = 'ALL';
+        let selectedDate = 'ALL';
 
-        // Paleta de colores para los avatares de cada amigo
-        const USER_COLORS = [
-            'from-rose-500 to-red-700',
-            'from-amber-500 to-orange-700',
-            'from-emerald-500 to-teal-700',
-            'from-sky-500 to-indigo-700',
-            'from-purple-500 to-fuchsia-700',
-            'from-pink-500 to-rose-700'
-        ];
-
-        function getUserColor(username) {
-            let hash = 0;
-            for (let i = 0; i < username.length; i++) {
-                hash = username.charCodeAt(i) + ((hash << 5) - hash);
-            }
-            return USER_COLORS[Math.abs(hash) % USER_COLORS.length];
-        }
-
-        // 2. INICIALIZACIÓN: Intentar cargar data.json del repositorio o usar el fallback
-        async function initApp() {
-            const badge = document.getElementById('data-source-badge');
+        // Cargar data.json y schedule.json automáticamente
+        async function loadAllData() {
             try {
-                const response = await fetch('data.json', { cache: 'no-store' });
-                if (!response.ok) throw new Error('No se encontró data.json');
-                const data = await response.json();
-                movieRecords = data;
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> data.json cargado`;
-            } catch (err) {
-                // Si se abre en local o aún no existe data.json, cargamos los datos de ejemplo
-                movieRecords = [...FALLBACK_DATA];
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400"></span> Datos Demo (Sin data.json)`;
+                const resRatings = await fetch('data.json', { cache: 'no-store' });
+                if (!resRatings.ok) throw new Error();
+                ratingsData = await resRatings.json();
+            } catch (e) {
+                ratingsData = [...FALLBACK_RATINGS];
             }
 
-            document.getElementById('json-textarea').value = JSON.stringify(movieRecords, null, 4);
-            renderHomeEditions();
+            try {
+                const resSchedule = await fetch('schedule.json', { cache: 'no-store' });
+                if (!resSchedule.ok) throw new Error();
+                scheduleData = await resSchedule.json();
+            } catch (e) {
+                scheduleData = [...FALLBACK_SCHEDULE];
+            }
+
+            renderEditionsView();
         }
 
-        // 3. GENERADOR DE ESTRELLAS SOBRE 5 (Soporta enteros y decimales como 4.5)
-        function renderStarsHTML(rating) {
-            const safeRating = Math.max(0, Math.min(5, Number(rating) || 0));
-            const fullStars = Math.floor(safeRating);
-            const hasHalfStar = (safeRating - fullStars) >= 0.25 && (safeRating - fullStars) < 0.75;
-            const roundUp = (safeRating - fullStars) >= 0.75 ? 1 : 0;
-
-            const finalFull = fullStars + roundUp;
-            const emptyStars = 5 - finalFull - (hasHalfStar ? 1 : 0);
-
-            let starsHtml = '<div class="inline-flex items-center gap-0.5 text-sitges-gold" title="' + safeRating + ' / 5">';
-            for (let i = 0; i < finalFull; i++) {
-                starsHtml += '<i class="fa-solid fa-star text-xs sm:text-sm drop-shadow"></i>';
-            }
-            if (hasHalfStar) {
-                starsHtml += '<i class="fa-solid fa-star-half-stroke text-xs sm:text-sm drop-shadow"></i>';
-            }
-            for (let i = 0; i < emptyStars; i++) {
-                starsHtml += '<i class="fa-regular fa-star text-xs sm:text-sm text-zinc-600"></i>';
-            }
-            starsHtml += '</div>';
-            return starsHtml;
+        // Obtener todos los años presentes tanto en data.json como en schedule.json
+        function getAvailableYears() {
+            const yearsSet = new Set([
+                ...ratingsData.map(d => Number(d.sitges_year)),
+                ...scheduleData.map(s => Number(s.sitges_year))
+            ]);
+            return [...yearsSet].filter(Boolean).sort((a, b) => b - a);
         }
 
-        // 4.GENERADOR DE PÓSTER SVG DE RESPALDO (Por si aún no existe pics/{year}.jpg)
-        function createFallbackPosterDataURI(year) {
-            const svg = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
-                <defs>
-                    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="#1f0810"/>
-                        <stop offset="50%" stop-color="#0f0f14"/>
-                        <stop offset="100%" stop-color="#2d0916"/>
-                    </linearGradient>
-                </defs>
-                <rect width="400" height="600" fill="url(#bg)"/>
-                <rect x="20" y="20" width="360" height="560" fill="none" stroke="#e11d48" stroke-width="2" stroke-opacity="0.4"/>
-                <circle cx="200" cy="240" r="85" fill="#e11d48" fill-opacity="0.12" stroke="#e11d48" stroke-width="1.5" stroke-opacity="0.5"/>
-                <text x="200" y="100" text-anchor="middle" fill="#9ca3af" font-family="serif" font-size="14" letter-spacing="4">FESTIVAL INTERNACIONAL</text>
-                <text x="200" y="255" text-anchor="middle" fill="#ffffff" font-family="serif" font-weight="bold" font-size="46" letter-spacing="6">SITGES</text>
-                <text x="200" y="420" text-anchor="middle" fill="#e11d48" font-family="serif" font-weight="bold" font-size="68">${year}</text>
-                <text x="200" y="535" text-anchor="middle" fill="#6b7280" font-family="sans-serif" font-size="12">Pon tu cartel en pics/${year}.jpg</text>
-            </svg>`;
-            return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
-        }
-
-        // 5. RENDERIZAR VISTA 1: PORTADAS DE EDICIONES DEL FESTIVAL
-        function renderHomeEditions() {
-            const grid = document.getElementById('editions-grid');
-
-            // Obtener años únicos de Sitges ordenados de más reciente a más antiguo
-            const years = [...new Set(movieRecords.map(r => Number(r.sitges_year)))].sort((a, b) => b - a);
+        // Renderizar Vista 1: Portadas
+        function renderEditionsView() {
+            const grid = document.getElementById('editionsGrid');
+            const years = getAvailableYears();
 
             if (years.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-center text-gray-500 py-12">No hay registros en el JSON todavía.</p>`;
+                grid.innerHTML = `<div class="empty-state">No hay registros en <code>data.json</code> ni en <code>schedule.json</code>.</div>`;
                 return;
             }
 
             grid.innerHTML = years.map(year => {
-                const yearRecords = movieRecords.filter(r => Number(r.sitges_year) === year);
-                const uniqueUsers = [...new Set(yearRecords.map(r => r.user))];
-                const uniqueMovies = [...new Set(yearRecords.map(r => r.movie_title))];
-                const avgRating = (yearRecords.reduce((acc, r) => acc + Number(r.rating), 0) / yearRecords.length).toFixed(1);
-                const fallbackPoster = createFallbackPosterDataURI(year);
+                const yearRatings = ratingsData.filter(d => Number(d.sitges_year) === year);
+                const yearEvents = scheduleData.filter(s => Number(s.sitges_year) === year);
+                const uniqueMovies = new Set([
+                    ...yearRatings.map(d => d.movie_title.toLowerCase().trim()),
+                    ...yearEvents.map(s => s.movie_title.toLowerCase().trim())
+                ]).size;
+
+                const avg = yearRatings.length
+                    ? (yearRatings.reduce((acc, r) => acc + Number(r.rating), 0) / yearRatings.length).toFixed(1)
+                    : '—';
 
                 return `
-                <div onclick="openEdition(${year})" class="poster-card cursor-pointer group w-full max-w-[270px] rounded-2xl overflow-hidden bg-sitges-card border border-sitges-border flex flex-col">
-                    <!-- Contenedor de la Imagen de Portada (pics/{year}.jpg) -->
-                    <div class="relative poster-aspect w-full bg-zinc-900 overflow-hidden">
-                        <img
-                            src="pics/${year}.jpg"
-                            alt="Portada Sitges ${year}"
-                            onerror="this.onerror=null; this.src='${fallbackPoster}';"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        >
-                        <!-- Gradiente oscuro inferior sobre el póster -->
-                        <div class="absolute inset-0 bg-gradient-to-t from-sitges-card via-transparent to-black/30"></div>
-
-                        <!-- Etiqueta superior con el año -->
-                        <div class="absolute top-3 left-3 px-3 py-1 rounded-lg bg-black/75 backdrop-blur-md border border-white/10 text-white font-display font-bold text-sm tracking-wider">
-                            EDICIÓN ${year}
+                    <article class="edition-card" onclick="openEdition(${year})">
+                        <div class="poster-wrapper">
+                            <img src="pics/${year}.jpg" alt="Sitges ${year}"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="poster-fallback" style="display: none;">
+                                <div class="poster-fallback-top">Festival Internacional de Cinema Fantàstic</div>
+                                <div class="poster-fallback-year">${year}</div>
+                                <div class="poster-fallback-sub">Sitges Film Log</div>
+                            </div>
+                            <div class="edition-overlay-badge">★ ${avg}</div>
                         </div>
-
-                        <!-- Nota media en la esquina superior derecha -->
-                        <div class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-black/75 backdrop-blur-md border border-sitges-gold/40 text-sitges-gold font-bold text-xs flex items-center gap-1">
-                            <i class="fa-solid fa-star"></i>
-                            <span>${avgRating}</span>
+                        <div class="edition-info">
+                            <div>
+                                <div class="edition-year-label">Sitges ${year}</div>
+                                <div class="edition-meta">${uniqueMovies} películas · ${yearEvents.length} pases en agenda</div>
+                            </div>
+                            <span style="color: var(--accent); font-weight: 700;">Ver →</span>
                         </div>
-
-                        <!-- Overlay botón al pasar el ratón -->
-                        <div class="absolute inset-0 bg-sitges-red/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <span class="px-4 py-2 rounded-xl bg-sitges-red text-white font-semibold text-xs uppercase tracking-wider shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">
-                                Ver Películas <i class="fa-solid fa-arrow-right ml-1"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Pie de la tarjeta de Edición -->
-                    <div class="p-4 flex items-center justify-between text-xs text-gray-400 bg-sitges-card">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-ticket text-sitges-red"></i>
-                            <span><strong class="text-white">${uniqueMovies.length}</strong> películas</span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <i class="fa-solid fa-user-group text-gray-500"></i>
-                            <span><strong class="text-white">${uniqueUsers.length}</strong> amigos</span>
-                        </div>
-                    </div>
-                </div>
+                    </article>
                 `;
             }).join('');
         }
 
-        // 6. NAVEGACIÓN ENTRE VISTAS
+        // Abrir una edición concreta
         function openEdition(year) {
-            selectedSitgesYear = Number(year);
-            selectedUserFilter = 'ALL';
-            document.getElementById('search-input').value = '';
+            currentEdition = Number(year);
+            selectedUser = 'ALL';
+            selectedDate = 'ALL';
+            document.getElementById('searchInput').value = '';
 
-            document.getElementById('view-home').classList.add('hidden');
-            document.getElementById('view-edition').classList.remove('hidden');
+            document.getElementById('editionsView').classList.add('hidden');
+            document.getElementById('detailView').classList.remove('hidden');
+            document.getElementById('backBtn').style.display = 'inline-flex';
 
-            document.getElementById('edition-title').textContent = `SITGES ${selectedSitgesYear}`;
+            const posterImg = document.getElementById('detailPoster');
+            posterImg.style.display = 'block';
+            posterImg.src = `pics/${year}.jpg`;
 
-            renderUserFilterPills();
-            renderEditionContent();
+            document.getElementById('detailTitle').textContent = `Sitges ${year}`;
+
+            renderCalendarSection();
+            renderUserPills();
+            renderRatingsSection();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function showHomeView() {
-            selectedSitgesYear = null;
-            document.getElementById('view-edition').classList.add('hidden');
-            document.getElementById('view-home').classList.remove('hidden');
-            renderHomeEditions();
+        function showEditionsView() {
+            currentEdition = null;
+            document.getElementById('detailView').classList.add('hidden');
+            document.getElementById('editionsView').classList.remove('hidden');
+            document.getElementById('backBtn').style.display = 'none';
+            renderEditionsView();
         }
 
-        function setDisplayMode(mode) {
-            displayMode = mode;
-            const btnUsers = document.getElementById('tab-by-user');
-            const btnMovies = document.getElementById('tab-by-movie');
-
-            if (mode === 'users') {
-                btnUsers.className = "px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-2 bg-sitges-red text-white shadow";
-                btnMovies.className = "px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-2 text-gray-400 hover:text-white";
-            } else {
-                btnMovies.className = "px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-2 bg-sitges-red text-white shadow";
-                btnUsers.className = "px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-2 text-gray-400 hover:text-white";
-            }
-            renderEditionContent();
-        }
-
-        // 7. PÍLDORAS DE FILTRO POR USUARIO EN LA EDICIÓN
-        function renderUserFilterPills() {
-            const editionRecords = movieRecords.filter(r => Number(r.sitges_year) === selectedSitgesYear);
-            const users = [...new Set(editionRecords.map(r => r.user))].sort();
-
-            const container = document.getElementById('user-filter-pills');
-            let html = `
-                <button onclick="filterByUser('ALL')" class="px-3 py-1.5 rounded-xl text-xs font-medium transition whitespace-nowrap ${selectedUserFilter === 'ALL' ? 'bg-white text-black font-semibold' : 'bg-sitges-bg text-gray-400 hover:text-white border border-sitges-border'}">
-                    Todos (${editionRecords.length})
-                </button>
-            `;
-
-            users.forEach(user => {
-                const count = editionRecords.filter(r => r.user === user).length;
-                const isActive = selectedUserFilter === user;
-                html += `
-                    <button onclick="filterByUser('${user}')" class="px-3 py-1.5 rounded-xl text-xs font-medium transition flex items-center gap-1.5 whitespace-nowrap ${isActive ? 'bg-sitges-red text-white font-semibold' : 'bg-sitges-bg text-gray-300 hover:text-white border border-sitges-border'}">
-                        <span>${user}</span>
-                        <span class="text-[10px] px-1.5 py-0.2 rounded-full ${isActive ? 'bg-black/30 text-white' : 'bg-zinc-800 text-gray-400'}">${count}</span>
-                    </button>
-                `;
-            });
-
-            container.innerHTML = html;
-        }
-
-        function filterByUser(user) {
-            selectedUserFilter = user;
-            renderUserFilterPills();
-            renderEditionContent();
-        }
-
-        // 8. RENDERIZAR CONTENIDO DE LA EDICIÓN (Por Usuario o por Película)
-        function renderEditionContent() {
-            const container = document.getElementById('edition-content-container');
-            const searchQuery = document.getElementById('search-input').value.trim().toLowerCase();
-            const sortType = document.getElementById('sort-select').value;
-
-            // Filtrar por año de Sitges
-            let filtered = movieRecords.filter(r => Number(r.sitges_year) === selectedSitgesYear);
-
-            // Actualizar subtítulo de estadísticas
-            const totalMovies = new Set(filtered.map(r => r.movie_title)).size;
-            const totalUsers = new Set(filtered.map(r => r.user)).size;
-            document.getElementById('edition-stats-subtitle').textContent = `${totalMovies} películas distintas · ${totalUsers} amigos`;
-
-            // Filtrar por usuario si hay uno seleccionado
-            if (selectedUserFilter !== 'ALL') {
-                filtered = filtered.filter(r => r.user === selectedUserFilter);
-            }
-
-            // Filtrar por búsqueda de texto
-            if (searchQuery) {
-                filtered = filtered.filter(r =>
-                    r.movie_title.toLowerCase().includes(searchQuery) ||
-                    String(r.movie_year).includes(searchQuery) ||
-                    r.user.toLowerCase().includes(searchQuery)
-                );
-            }
-
-            // Función auxiliar de ordenación
-            const sortFn = (a, b) => {
-                if (sortType === 'rating-desc') return Number(b.rating) - Number(a.rating);
-                if (sortType === 'rating-asc') return Number(a.rating) - Number(b.rating);
-                if (sortType === 'title-asc') return a.movie_title.localeCompare(b.movie_title);
-                if (sortType === 'year-desc') return Number(b.movie_year) - Number(a.movie_year);
-                return 0;
+        // Formatear fecha '2025-10-11' -> { dayNum: '11', weekday: 'Sáb', month: 'Oct' }
+        function formatSpanishDate(dateStr) {
+            const parts = dateStr.split('-');
+            if (parts.length !== 3) return { dayNum: dateStr, weekday: '', month: 'Oct' };
+            const dateObj = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+            const weekdays = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            return {
+                dayNum: parts[2],
+                weekday: weekdays[dateObj.getDay()],
+                month: months[dateObj.getMonth()]
             };
+        }
 
-            if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-16 bg-sitges-card/40 rounded-2xl border border-sitges-border">
-                        <i class="fa-solid fa-film text-3xl text-gray-600 mb-3"></i>
-                        <p class="text-gray-400 text-sm">No se encontraron películas con esos filtros.</p>
+        // Renderizar el Calendario de Octubre arriba
+        function renderCalendarSection() {
+            const yearEvents = scheduleData
+                .filter(e => Number(e.sitges_year) === currentEdition)
+                .sort((a, b) => (a.date + a.start_time).localeCompare(b.date + b.start_time));
+
+            const yearRatings = ratingsData.filter(r => Number(r.sitges_year) === currentEdition);
+
+            const pillsContainer = document.getElementById('dayPillsContainer');
+            const gridContainer = document.getElementById('calendarDaysGrid');
+            const summaryText = document.getElementById('calendarSummaryText');
+
+            if (yearEvents.length === 0) {
+                pillsContainer.innerHTML = '';
+                summaryText.textContent = `No hay pases registrados en schedule.json para octubre de ${currentEdition}.`;
+                gridContainer.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1; padding: 1.5rem;">
+                        Aún no hay eventos en <code>schedule.json</code> para Sitges ${currentEdition}. Ejecuta tu script de Python sobre el archivo <code>.ics</code> para generar los horarios.
                     </div>
                 `;
                 return;
             }
 
-            if (displayMode === 'users') {
-                renderGroupedByUser(container, filtered, sortFn);
-            } else {
-                renderGroupedByMovie(container, filtered, sortType);
-            }
-        }
+            // Agrupar eventos por fecha (YYYY-MM-DD)
+            const eventsByDate = {};
+            yearEvents.forEach(ev => {
+                if (!eventsByDate[ev.date]) eventsByDate[ev.date] = [];
+                eventsByDate[ev.date].push(ev);
+            });
 
-        // 8A. VISTA AGRUPADA POR AMIGO (Requisito principal)
-        function renderGroupedByUser(container, records, sortFn) {
-            const users = [...new Set(records.map(r => r.user))].sort();
+            const uniqueDates = Object.keys(eventsByDate).sort();
+            summaryText.textContent = `${yearEvents.length} sesiones distribuidas en ${uniqueDates.length} días de octubre`;
 
-            const gridClass = users.length === 1
-                ? "grid grid-cols-1 max-w-2xl mx-auto gap-6"
-                : "grid grid-cols-1 lg:grid-cols-2 gap-6";
+            // Píldoras para filtrar por día o ver todos
+            pillsContainer.innerHTML = [
+                `<button class="day-pill ${selectedDate === 'ALL' ? 'active' : ''}" onclick="selectCalendarDate('ALL')">Todos los días (${uniqueDates.length})</button>`,
+                ...uniqueDates.map(d => {
+                    const info = formatSpanishDate(d);
+                    return `<button class="day-pill ${selectedDate === d ? 'active' : ''}" onclick="selectCalendarDate('${d}')">${info.weekday} ${info.dayNum}</button>`;
+                })
+            ].join('');
 
-            const html = users.map(user => {
-                const userMovies = records.filter(r => r.user === user).sort(sortFn);
-                const avg = (userMovies.reduce((sum, r) => sum + Number(r.rating), 0) / userMovies.length).toFixed(2);
-                const avatarGradient = getUserColor(user);
-                const initial = user.charAt(0).toUpperCase();
+            const datesToShow = selectedDate === 'ALL' ? uniqueDates : [selectedDate];
 
-                const moviesListHtml = userMovies.map(item => `
-                    <div class="group flex items-center justify-between gap-4 p-3.5 rounded-xl bg-sitges-bg/80 hover:bg-zinc-900 border border-sitges-border/80 hover:border-zinc-700 transition">
-                        <div class="min-w-0">
-                            <h4 class="font-semibold text-white text-sm sm:text-base truncate group-hover:text-sitges-red transition-colors">
-                                ${item.movie_title}
-                            </h4>
-                            <span class="inline-flex items-center gap-1 text-xs text-gray-400 mt-0.5">
-                                <i class="fa-regular fa-calendar text-[11px] text-gray-500"></i>
-                                Estreno: ${item.movie_year}
-                            </span>
+            gridContainer.innerHTML = datesToShow.map(dateStr => {
+                const dayEvents = eventsByDate[dateStr] || [];
+                const dInfo = formatSpanishDate(dateStr);
+
+                const eventsHtml = dayEvents.map(ev => {
+                    // Buscar si esta película tiene nota en data.json
+                    const matchingRatings = yearRatings.filter(
+                        r => r.movie_title.toLowerCase().trim() === ev.movie_title.toLowerCase().trim()
+                    );
+                    const avgRating = matchingRatings.length
+                        ? (matchingRatings.reduce((sum, r) => sum + Number(r.rating), 0) / matchingRatings.length).toFixed(1)
+                        : null;
+
+                    const timeLabel = ev.end_time ? `${ev.start_time} – ${ev.end_time}` : ev.start_time;
+                    const durationLabel = ev.duration_min ? `${ev.duration_min} min` : '';
+
+                    return `
+                        <div class="schedule-item">
+                            <div class="schedule-time-row">
+                                <span class="schedule-time">🕒 ${escapeHtml(timeLabel)}</span>
+                                ${durationLabel ? `<span class="schedule-duration">${escapeHtml(durationLabel)}</span>` : ''}
+                            </div>
+                            <div class="schedule-movie-title">
+                                <span>${escapeHtml(ev.movie_title)}</span>
+                                ${avgRating ? `<span class="schedule-avg-pill" title="Nota media del grupo">★ ${avgRating}</span>` : ''}
+                            </div>
+                            <div class="schedule-meta-row">
+                                <span class="schedule-location" title="${escapeHtml(ev.location || '')}">📍 ${escapeHtml(ev.location || 'Sala no indicada')}</span>
+                                ${ev.movie_url ? `<a class="schedule-link" href="${escapeHtml(ev.movie_url)}" target="_blank" rel="noopener">Ficha ↗</a>` : ''}
+                            </div>
                         </div>
-
-                        <div class="flex items-center gap-2.5 shrink-0">
-                            ${renderStarsHTML(item.rating)}
-                            <span class="w-9 text-right font-mono font-bold text-xs sm:text-sm px-1.5 py-0.5 rounded bg-zinc-800/90 text-amber-400 border border-amber-500/20">
-                                ${Number(item.rating).toFixed(1)}
-                            </span>
-                        </div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
 
                 return `
-                <div class="bg-sitges-card rounded-2xl border border-sitges-border overflow-hidden shadow-lg flex flex-col">
-                    <!-- Cabecera del Usuario -->
-                    <div class="p-5 bg-gradient-to-r from-zinc-900 via-sitges-card to-sitges-card border-b border-sitges-border flex items-center justify-between">
-                        <div class="flex items-center gap-3.5">
-                            <div class="w-11 h-11 rounded-xl bg-gradient-to-br ${avatarGradient} flex items-center justify-center text-white font-display font-bold text-lg shadow-md">
-                                ${initial}
+                    <div class="day-column">
+                        <div class="day-column-header">
+                            <div class="day-date-badge">
+                                <span class="day-number">${dInfo.dayNum}</span>
+                                <span class="day-name">${dInfo.weekday} · ${dInfo.month}</span>
                             </div>
-                            <div>
-                                <h3 class="font-bold text-lg text-white leading-tight">${user}</h3>
-                                <p class="text-xs text-gray-400">${userMovies.length} ${userMovies.length === 1 ? 'película vista' : 'películas vistas'}</p>
-                            </div>
+                            <span class="day-count">${dayEvents.length} ${dayEvents.length === 1 ? 'peli' : 'pelis'}</span>
                         </div>
-
-                        <div class="text-right">
-                            <span class="text-[11px] uppercase tracking-wider text-gray-400 block">Media</span>
-                            <div class="flex items-center gap-1 text-sitges-gold font-bold text-sm">
-                                <i class="fa-solid fa-star text-xs"></i>
-                                <span>${avg}</span>
-                            </div>
+                        <div class="day-events-list">
+                            ${eventsHtml}
                         </div>
                     </div>
-
-                    <!-- Lista de películas vistas por este amigo -->
-                    <div class="p-4 space-y-2.5 flex-grow">
-                        ${moviesListHtml}
-                    </div>
-                </div>
                 `;
             }).join('');
-
-            container.innerHTML = `<div class="${gridClass}">${html}</div>`;
         }
 
-        // 8B. VISTA EXTRA: AGRUPADA POR PELÍCULA (Ranking comparativo de la edición)
-        function renderGroupedByMovie(container, records, sortType) {
-            const moviesMap = {};
-
-            records.forEach(r => {
-                const key = `${r.movie_title}___${r.movie_year}`;
-                if (!moviesMap[key]) {
-                    moviesMap[key] = {
-                        title: r.movie_title,
-                        year: r.movie_year,
-                        votes: []
-                    };
-                }
-                moviesMap[key].votes.push({ user: r.user, rating: Number(r.rating) });
-            });
-
-            let moviesList = Object.values(moviesMap).map(m => {
-                const avg = m.votes.reduce((s, v) => s + v.rating, 0) / m.votes.length;
-                return { ...m, avg };
-            });
-
-            // Ordenar películas
-            moviesList.sort((a, b) => {
-                if (sortType === 'rating-desc') return b.avg - a.avg;
-                if (sortType === 'rating-asc') return a.avg - b.avg;
-                if (sortType === 'title-asc') return a.title.localeCompare(b.title);
-                if (sortType === 'year-desc') return Number(b.year) - Number(a.year);
-                return 0;
-            });
-
-            const html = moviesList.map((movie, idx) => {
-                const userBadges = movie.votes.map(v => `
-                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-sitges-bg border border-sitges-border">
-                        <span class="text-xs font-medium text-gray-200">${v.user}</span>
-                        ${renderStarsHTML(v.rating)}
-                        <span class="text-xs font-mono font-bold text-amber-400">${v.rating.toFixed(1)}</span>
-                    </div>
-                `).join('');
-
-                return `
-                <div class="bg-sitges-card rounded-2xl border border-sitges-border p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-zinc-700 transition">
-                    <div class="space-y-2">
-                        <div class="flex items-center gap-3">
-                            <span class="w-7 h-7 rounded-lg bg-zinc-800 border border-zinc-700 text-xs font-mono font-bold text-gray-300 flex items-center justify-center">
-                                #${idx + 1}
-                            </span>
-                            <div>
-                                <h3 class="font-bold text-base sm:text-lg text-white leading-snug">
-                                    ${movie.title}
-                                    <span class="text-xs font-normal text-gray-400 ml-1">(${movie.year})</span>
-                                </h3>
-                            </div>
-                        </div>
-
-                        <!-- Notas individuales de cada amigo -->
-                        <div class="flex flex-wrap gap-2 pt-1">
-                            ${userBadges}
-                        </div>
-                    </div>
-
-                    <!-- Media global de la película -->
-                    <div class="flex sm:flex-col items-center sm:items-end justify-between border-t sm:border-t-0 pt-3 sm:pt-0 border-sitges-border shrink-0">
-                        <span class="text-xs text-gray-400">Media del grupo (${movie.votes.length})</span>
-                        <div class="flex items-center gap-2 mt-1">
-                            ${renderStarsHTML(movie.avg)}
-                            <span class="font-mono font-bold text-base px-2 py-0.5 rounded-lg bg-amber-500/10 text-sitges-gold border border-sitges-gold/30">
-                                ${movie.avg.toFixed(2)}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                `;
-            }).join('');
-
-            container.innerHTML = `<div class="space-y-3">${html}</div>`;
+        function selectCalendarDate(dateStr) {
+            selectedDate = dateStr;
+            renderCalendarSection();
         }
 
-        // 9. FUNCIONES DE MODALES Y PRUEBA DE JSON
-        function toggleModal(id) {
-            const modal = document.getElementById(id);
-            modal.classList.toggle('hidden');
-            document.getElementById('json-error').classList.add('hidden');
+        // Píldoras de filtro de usuarios
+        function renderUserPills() {
+            const yearData = ratingsData.filter(d => Number(d.sitges_year) === currentEdition);
+            const users = [...new Set(yearData.map(d => d.user))];
+            const container = document.getElementById('userPills');
+
+            const pillsHtml = [
+                `<button class="pill ${selectedUser === 'ALL' ? 'active' : ''}" onclick="selectUser('ALL')">Todos (${users.length})</button>`,
+                ...users.map(u => `<button class="pill ${selectedUser === u ? 'active' : ''}" onclick="selectUser('${escapeHtml(u)}')">${escapeHtml(u)}</button>`)
+            ];
+            container.innerHTML = pillsHtml.join('');
         }
 
-        function applyCustomJson() {
-            const raw = document.getElementById('json-textarea').value;
-            const errorBox = document.getElementById('json-error');
-            try {
-                const parsed = JSON.parse(raw);
-                if (!Array.isArray(parsed)) throw new Error('El JSON raíz debe ser un Array [...]');
+        function selectUser(user) {
+            selectedUser = user;
+            renderUserPills();
+            renderRatingsSection();
+        }
 
-                movieRecords = parsed;
-                toggleModal('json-modal');
+        // Renderizar tarjetas de valoraciones por amigo
+        function renderRatingsSection() {
+            const container = document.getElementById('detailContent');
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
 
-                if (selectedSitgesYear) {
-                    renderUserFilterPills();
-                    renderEditionContent();
-                } else {
-                    renderHomeEditions();
-                }
-            } catch (e) {
-                errorBox.textContent = "Error de formato en el JSON: " + e.message;
-                errorBox.classList.remove('hidden');
+            const yearData = ratingsData.filter(d => {
+                const matchYear = Number(d.sitges_year) === currentEdition;
+                const matchUser = selectedUser === 'ALL' || d.user === selectedUser;
+                const matchQuery = !query || d.movie_title.toLowerCase().includes(query);
+                return matchYear && matchUser && matchQuery;
+            });
+
+            const yearEvents = scheduleData.filter(e => Number(e.sitges_year) === currentEdition);
+
+            document.getElementById('detailSubtitle').textContent =
+                `${yearData.length} valoraciones registradas · ${yearEvents.length} sesiones en el calendario de octubre`;
+
+            if (yearData.length === 0) {
+                container.innerHTML = `<div class="empty-state">No hay películas puntuadas que coincidan con este filtro.</div>`;
+                return;
             }
+
+            const byUser = {};
+            yearData.forEach(item => {
+                if (!byUser[item.user]) byUser[item.user] = [];
+                byUser[item.user].push(item);
+            });
+
+            container.innerHTML = `<div class="users-container">${
+                Object.entries(byUser).map(([user, movies]) => {
+                    const sorted = [...movies].sort((a, b) => Number(b.rating) - Number(a.rating));
+                    const avg = (sorted.reduce((acc, m) => acc + Number(m.rating), 0) / sorted.length).toFixed(2);
+                    const initials = user.slice(0, 2).toUpperCase();
+
+                    return `
+                        <div class="user-card">
+                            <div class="user-card-header">
+                                <div class="user-identity">
+                                    <div class="avatar">${escapeHtml(initials)}</div>
+                                    <div>
+                                        <div class="user-name">${escapeHtml(user)}</div>
+                                        <div style="font-size: 0.78rem; color: var(--text-muted);">${sorted.length} películas vistas</div>
+                                    </div>
+                                </div>
+                                <div class="user-stats">
+                                    Media<br><strong>★ ${avg}</strong>
+                                </div>
+                            </div>
+                            <div class="movie-list">
+                                ${sorted.map(m => {
+                                    // Si la película también está en schedule.json, mostramos su sala y link
+                                    const sched = yearEvents.find(
+                                        e => e.movie_title.toLowerCase().trim() === m.movie_title.toLowerCase().trim()
+                                    );
+                                    return `
+                                        <div class="movie-item">
+                                            <div>
+                                                <span class="movie-title">${escapeHtml(m.movie_title)}</span>
+                                                <span class="movie-year">(${escapeHtml(String(m.movie_year))})</span>
+                                                ${sched ? `
+                                                    <div class="movie-extra-meta">
+                                                        <span>📍 ${escapeHtml(sched.location)}</span>
+                                                        ${sched.movie_url ? `<a href="${escapeHtml(sched.movie_url)}" target="_blank" rel="noopener">Ficha ↗</a>` : ''}
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                            <div class="rating-box">
+                                                ${renderStars(m.rating)}
+                                                <span class="rating-number">${Number(m.rating).toFixed(1)}</span>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                }).join('')
+            }</div>`;
         }
 
-        function copyJsonToClipboard() {
-            const textarea = document.getElementById('json-textarea');
-            textarea.select();
-            document.execCommand('copy');
-            const btn = document.getElementById('copy-btn');
-            const original = btn.innerHTML;
-            btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> <span>¡Copiado!</span>`;
-            setTimeout(() => { btn.innerHTML = original; }, 2000);
+        // Generar estrellas sobre 5 (con medias estrellas)
+        function renderStars(rating) {
+            const val = Math.max(0, Math.min(5, Math.round(Number(rating) * 2) / 2));
+            let html = '<span class="stars-row" aria-label="Puntuación ' + val + ' de 5">';
+            for (let i = 1; i <= 5; i++) {
+                let fill = '#323246';
+                if (val >= i) {
+                    fill = '#f5b301';
+                } else if (val >= i - 0.5) {
+                    fill = 'url(#half-star-grad)';
+                }
+                html += `
+                    <svg class="star-svg" viewBox="0 0 24 24">
+                        <path fill="${fill}" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                    </svg>
+                `;
+            }
+            html += '</span>';
+            return html;
         }
 
-        // Iniciar al cargar la ventana
-        window.onload = initApp;
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        loadAllData();
     </script>
 </body>
 </html>
